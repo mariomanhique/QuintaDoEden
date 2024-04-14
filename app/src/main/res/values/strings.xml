@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">QuintaDoEden</string>
+    <string name="check_in">Check-In</string>
+    <string name="checkout">Check-Out</string>
+    <string name="cleaning">Limpeza</string>
+    <string name="booking">Booking</string>
+    <string name="in_house">Residentes</string>
+    <string name="inventory">Inventário</string>
+    <string name="available">Quartos Disponíeis</string>
+    <string name="sold">Quartos Vendidos</string>
+    <string name="blocked">Quartos Bloqueados</string>
+
+
+    <string name="newDrinkInv">Novo Inventário</string>
+
+
+<!--    Navigation-->
+    <string name="home">Home</string>
+    <string name="notes">Recados</string>
+    <string name="events">Eventos</string>
+
+</resources>

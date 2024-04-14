@@ -1,0 +1,135 @@
+package com.mariomanhique.quintadoeden.presentation.screens.checkIn
+
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import com.mariomanhique.quintadoeden.presentation.components.GuestCard
+import com.mariomanhique.quintadoeden.presentation.components.TopBar
+import com.mariomanhique.quintadoeden.R
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun CheckInScreen(
+    popBackStack: () -> Unit
+) {
+    val tabItems = listOf(
+        TabItem(
+            title = "Hoje",
+//            selectedIcon = Icons.Filled.Place,
+//            unSelectedIcon = Icons.Outlined.Place
+        ),
+        TabItem(
+            title = "Amanhã",
+//            selectedIcon = Icons.Filled.ArrowForward,
+//            unSelectedIcon = Icons.Outlined.ArrowForward
+        ),
+        TabItem(
+        title = "Semana",
+//            selectedIcon = Icons.Filled.ArrowForward,
+//            unSelectedIcon = Icons.Outlined.ArrowForward
+             ),
+        TabItem(
+            title = "Todo Mês",
+//            selectedIcon = Icons.Filled.ArrowForward,
+//            unSelectedIcon = Icons.Outlined.ArrowForward
+        )
+    )
+
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0)
+    }
+    val pagerState = rememberPagerState {
+        tabItems.size
+    }
+
+    LaunchedEffect(selectedTabIndex) {
+        pagerState.animateScrollToPage(selectedTabIndex)
+    }
+
+    LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
+        if(!pagerState.isScrollInProgress){
+            selectedTabIndex = pagerState.currentPage
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        TopBar(
+            title = stringResource(id = R.string.check_in),
+            navIcon = Icons.Filled.ArrowBack,
+            popBackStack = popBackStack
+        )
+        TabRow(selectedTabIndex = selectedTabIndex) {
+            tabItems.forEachIndexed { index, tabItem ->
+
+                Tab(
+                    selected = index == selectedTabIndex,
+                    onClick = {
+                        selectedTabIndex = index
+                    },
+                    text = {
+                        Text(text = tabItem.title)
+                    })
+            }
+        }
+        
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) { index->
+
+            if (index == 0){
+                CheckInContent()
+            }else if(index == 1){
+                CheckInContent()
+            }else if(index == 2){
+                CheckInContent()
+            }else if(index == 3){
+                CheckInContent()
+            }
+        }
+
+    }
+//    CheckInContent()
+}
+
+@Composable
+fun CheckInContent() {
+    LazyColumn {
+        items(count = 8){
+            GuestCard()
+        }
+    }
+}
+
+data class TabItem(
+    val title: String,
+//     val unSelectedIcon: ImageVector,
+//     val selectedIcon: ImageVector
+)
