@@ -23,8 +23,8 @@ import androidx.compose.material3.Surface
 fun GoogleButton(
     modifier: Modifier = Modifier,
     loadingState: Boolean = false,
-    primaryText: String = "Sign In",
-    secondaryText: String = "Please wait...",
+    primaryText: String = "Entrar",
+    secondaryText: String = "Aguarde...",
     shape: Shape = Shapes().extraSmall,
     borderColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     backgroundColor: Color = MaterialTheme.colorScheme.surface,

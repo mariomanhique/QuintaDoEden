@@ -19,4 +19,23 @@
     <string name="notes">Recados</string>
     <string name="events">Eventos</string>
 
+    <string name="product">Producto</string>
+    <string name="countType">Tipo de Contagem</string>
+    <string name="countNr">Número de Contagem</string>
+<!--    <string name="product">Producto</string>-->
+
+
+<!--    EventsSheet-->
+
+    <string name="event">Evento</string>
+    <string name="event_type">Tipo de Evento</string>
+    <string name="start_at">Início</string>
+    <string name="end_at">Término</string>
+    <string name="pax">Nr Pax Total</string>
+    <string name="kids_zeroTo3">0 a 3</string>
+    <string name="kids_4To9">4 a 9</string>
+    <string name="adults">Adults</string>
+    <string name="date">Data do Evento</string>
+    <string name="observation">Observação</string>
+
 </resources>

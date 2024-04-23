@@ -31,9 +31,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.mariomanhique.quintadoeden.presentation.screens.auth.authWithCredentials.AuthWithCredentialsViewModel
 import com.mariomanhique.quintadoeden.presentation.components.GoogleButton
 import com.mariomanhique.quintadoeden.R
+import com.mariomanhique.quintadoeden.presentation.components.EdenIcon
 import kotlinx.coroutines.launch
 
 @Composable
@@ -59,29 +61,22 @@ fun SignInScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(scrollState),
+            .statusBarsPadding(),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-//        Image(
-//            painter = painterResource(id = R.drawable.diary),
-//            contentDescription = "logo"
-//        )
-        Text(
-            modifier = Modifier.paddingFromBaseline(top =50.dp, bottom = 50.dp),
-            text = "Sign In",
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                letterSpacing = 2.sp
-            ),
-            fontSize = 30.sp
-        )
+
+
+        EdenIcon()
+
+//
         OutlinedTextField(
             value = emailValue,
             enabled = isNetworkAvailable,
             onValueChange = {
                 emailValue = it },
-            label = { Text(text = "Email Address") },
-            placeholder = { Text(text = "Email Address") },
+            label = { Text(text = "Email") },
+            placeholder = { Text(text = "Email") },
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth(0.8f)
@@ -103,8 +98,8 @@ fun SignInScreen(
                     )
                 }
             },
-            label = { Text("Password") },
-            placeholder = { Text(text = "Password") },
+            label = { Text("Palavra Passe") },
+            placeholder = { Text(text = "Palavra Passe") },
             singleLine = true,
             visualTransformation = if (passwordVisibility) VisualTransformation.None
             else PasswordVisualTransformation(),
@@ -123,7 +118,7 @@ fun SignInScreen(
                     password = passwordValue,
                     onSuccess = {
                         scope.launch {
-                            onShowSnackbar("Logged In Successfully",null)
+                            onShowSnackbar("Bem Vindo/a ${FirebaseAuth.getInstance().currentUser?.displayName}",null)
                             navigateToHome()
                             viewModel.resetAuthState()
                         }
@@ -135,13 +130,13 @@ fun SignInScreen(
                     }
                 )
             }else{
-                Toast.makeText(context,"Fields can't be blank", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"Preecnha devidamente os campos", Toast.LENGTH_SHORT).show()
             }
         }
 
         Spacer(modifier = Modifier.padding(20.dp))
         Text(
-            text = "Create An Account",
+            text = "Não tem conta? Criar",
             modifier = Modifier.clickable(onClick = {
                 navigateToSignUp()
             })

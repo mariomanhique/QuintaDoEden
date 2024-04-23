@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mariomanhique.quintadoeden.Util.Constants.CATEGORY_ARG
+import com.mariomanhique.quintadoeden.util.Constants.CATEGORY_ARG
 import com.mariomanhique.quintadoeden.data.repository.firestore.FirestoreRepository
 import com.mariomanhique.quintadoeden.model.ProductInv
 import com.mariomanhique.quintadoeden.model.ProductInvToSave
@@ -38,11 +38,13 @@ class FillInventoryViewModel @Inject constructor(
     ){
         viewModelScope.launch {
             if (category != null){
-                firestoreRepository.getItemsByCategory(category)
+                firestoreRepository.getItemsByCategory(
+                    category = category,
+                    document = "products"
+                )
                     .distinctUntilChanged()
                     .collectLatest {
                         Log.d("Category", "getItemsByCategory: $it ")
-
                         _items.value = it
                     }
             }
@@ -51,13 +53,15 @@ class FillInventoryViewModel @Inject constructor(
     }
 
     fun saveInventory(
-        productInv: ProductInvToSave
+        productInv: ProductInvToSave,
+        document: String = "inventories"
     ){
         viewModelScope.launch {
             if (category != null) {
                 firestoreRepository.saveInventory(
                     category = category,
-                    productInv = productInv
+                    productInv = productInv,
+                    document = document
                 )
             }
         }

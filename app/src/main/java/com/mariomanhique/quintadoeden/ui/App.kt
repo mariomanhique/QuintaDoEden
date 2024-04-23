@@ -72,47 +72,6 @@ fun App(
     val snackbarHostState = remember { SnackbarHostState() }
     val destination = appState.currentTopLevelDestination
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-    var isSheetOpen by rememberSaveable {
-        mutableStateOf(false)
-    }
-
-    var dialogState by remember {
-        mutableStateOf(false)
-    }
-
-//    if (dialogState){
-//        CustomDialog(
-//            title = R.string.signOut,
-//            text = R.string.signout_confirmation ,
-//            onDismissDialog = {
-//                dialogState = false
-//            },
-//            confirmButton = {
-//                FirebaseAuth.getInstance().signOut()
-//                isSheetOpen = false
-//                if (FirebaseAuth.getInstance().currentUser == null){
-//                    dialogState = false
-//                }
-//            }
-//        )
-//    }
-
-//    if (isSheetOpen){
-//        MenuSheet(
-//            onSheetDismissed = {
-//                isSheetOpen = false
-//            },
-//            onSignedOut = {
-//                if (FirebaseAuth.getInstance().currentUser != null){
-//                    dialogState = true
-//                }
-//            },
-//            onSignedIn = {
-//                appState.navigateToSignIn()
-//                isSheetOpen = false
-//            }
-//        )
-//    }
     Scaffold(
         modifier = Modifier
             .semantics {
@@ -125,7 +84,7 @@ fun App(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             if (
-                destination != null){
+                destination != null && destination != TopLevelDestination.EVENTS){
                 TopBar(title = stringResource(id = destination.iconTextId)) {
 
                 }
@@ -171,7 +130,8 @@ fun App(
             ) {
                 QDENavHost(
                     startDestination = if (FirebaseAuth.getInstance().currentUser == null) signInNavigationRoute else homeRoute,
-                    appState = appState
+                    appState = appState,
+                    paddingValues = paddingValues
                 )
             }
         }

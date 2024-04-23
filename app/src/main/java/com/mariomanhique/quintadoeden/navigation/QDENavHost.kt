@@ -1,5 +1,7 @@
 package com.mariomanhique.quintadoeden.navigation
 
+import android.util.Log
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -21,6 +23,8 @@ import com.mariomanhique.quintadoeden.presentation.screens.inventory.drinks.navi
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.drinks.navigation.fillDrinksInvRoute
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.drinks.navigation.navigateToDrinksInv
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.drinks.navigation.navigateToFillDrinksInv
+import com.mariomanhique.quintadoeden.presentation.screens.inventory.invList.invListByDateRoute
+import com.mariomanhique.quintadoeden.presentation.screens.inventory.invList.navigateByDateInv
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.submitted.navigation.byDateRoute
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.submitted.navigation.navigateToSOrderByDate
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.submitted.navigation.submittedInventoryRoute
@@ -32,7 +36,8 @@ import com.mariomanhique.quintadoeden.ui.AppState
 @Composable
 fun QDENavHost(
     startDestination: String,
-    appState: AppState
+    appState: AppState,
+    paddingValues: PaddingValues
 ) {
 
 
@@ -91,13 +96,23 @@ fun QDENavHost(
                navController.navigateToSOrderByDate(it)
            },
             nestedGraph = {
-                byDateRoute()
+                byDateRoute(
+                    navigateToOrderedList = {
+                        Log.d("Date", "OrderedByDateScreen: $it")
+
+                        navController.navigateByDateInv(it)
+                    }
+                )
+                invListByDateRoute(
+                )
             }
         )
 
         notesNavigationRoute()
 
         eventsNavigationRoute()
+
+
 
 
 

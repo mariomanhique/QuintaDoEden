@@ -4,9 +4,11 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -15,6 +17,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -33,6 +36,7 @@ import com.mariomanhique.quintadoeden.model.Category
 import com.mariomanhique.quintadoeden.presentation.components.TopBar
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.InventoryViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DrinksInventoryScreen(
     popBackStack: () -> Unit,
@@ -40,8 +44,8 @@ fun DrinksInventoryScreen(
     categoryClicked: (String) -> Unit,
     inventoryViewModel: InventoryViewModel = hiltViewModel()
 ) {
-
     val categories by inventoryViewModel.categories.collectAsStateWithLifecycle()
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -65,9 +69,10 @@ fun CategoriesGridList(
 //    categories: List<String>,
     categoryClicked: (String) -> Unit
 ) {
-
     LazyVerticalGrid(
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = Modifier
+            .padding(horizontal = 16.dp),
+        contentPadding = PaddingValues(vertical = 6.dp),
         columns = object : GridCells{
             override fun Density.calculateCrossAxisCellSizes(
                 availableSize: Int,
@@ -111,38 +116,32 @@ fun InventoryCard(
     @DrawableRes icon: Int,
     categoryClicked: () -> Unit
 ) {
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .height(150.dp)
-            ,
-            onClick = {
-                categoryClicked()
-            },
-            tonalElevation = 3.dp,
-            shadowElevation = 3.dp,
-            shape = MaterialTheme.shapes.medium
-
-        ) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxSize()
-            ){
-                Image(
-                    modifier = Modifier.size(100.dp),
-                    painter = painterResource(id = icon),
-                    contentDescription = "",
-                    contentScale = ContentScale.Fit
-                )
-                Spacer(modifier = Modifier.height(15.dp))
-                Text(
-                    text = category,
-                )
-            }
-
-
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+            .height(150.dp),
+        onClick = {
+            categoryClicked()
+        },
+        tonalElevation = 3.dp,
+        shadowElevation = 3.dp,
+        shape = MaterialTheme.shapes.medium
+    ) {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize()
+        ){
+            Image(
+                modifier = Modifier.size(100.dp),
+                painter = painterResource(id = icon),
+                contentDescription = "",
+                contentScale = ContentScale.Fit
+            )
+            Spacer(modifier = Modifier.height(15.dp))
+            Text(
+                text = category,
+            )
         }
-
-
+    }
 }

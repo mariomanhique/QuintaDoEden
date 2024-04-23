@@ -4,16 +4,10 @@ import androidx.compose.runtime.Composable
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.drinks.CategoriesGridList
 
 @Composable
-fun SubmittedInventoryScreen(
+fun SubmittedCategoriesScreen(
     categoryClicked: (String) -> Unit,
 ) {
     CategoriesGridList(
         categoryClicked = categoryClicked
     )
-}
-
-
-@Composable
-fun SubmittedInventoryContent() {
-
 }

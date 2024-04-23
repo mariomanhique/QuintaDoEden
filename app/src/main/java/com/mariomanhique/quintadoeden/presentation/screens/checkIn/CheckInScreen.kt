@@ -10,6 +10,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -29,7 +30,7 @@ import com.mariomanhique.quintadoeden.presentation.components.GuestCard
 import com.mariomanhique.quintadoeden.presentation.components.TopBar
 import com.mariomanhique.quintadoeden.R
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun CheckInScreen(
     popBackStack: () -> Unit
@@ -40,16 +41,6 @@ fun CheckInScreen(
 //            selectedIcon = Icons.Filled.Place,
 //            unSelectedIcon = Icons.Outlined.Place
         ),
-        TabItem(
-            title = "Amanhã",
-//            selectedIcon = Icons.Filled.ArrowForward,
-//            unSelectedIcon = Icons.Outlined.ArrowForward
-        ),
-        TabItem(
-        title = "Semana",
-//            selectedIcon = Icons.Filled.ArrowForward,
-//            unSelectedIcon = Icons.Outlined.ArrowForward
-             ),
         TabItem(
             title = "Todo Mês",
 //            selectedIcon = Icons.Filled.ArrowForward,
@@ -68,6 +59,7 @@ fun CheckInScreen(
         pagerState.animateScrollToPage(selectedTabIndex)
     }
 
+    //This helps
     LaunchedEffect(pagerState.currentPage, pagerState.isScrollInProgress) {
         if(!pagerState.isScrollInProgress){
             selectedTabIndex = pagerState.currentPage
@@ -104,16 +96,12 @@ fun CheckInScreen(
                 .weight(1f)
         ) { index->
 
-            if (index == 0){
-                CheckInContent()
-            }else if(index == 1){
-                CheckInContent()
-            }else if(index == 2){
-                CheckInContent()
-            }else if(index == 3){
-                CheckInContent()
+            when(index){
+                0 -> CheckInContent()
+                1 -> CheckInContent()
             }
         }
+
 
     }
 //    CheckInContent()

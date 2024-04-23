@@ -1,6 +1,7 @@
 package com.mariomanhique.quintadoeden.presentation.components
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -96,7 +97,7 @@ fun DetailsSection(
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
+        Image(
             painter = painterResource(id = icon),
             contentDescription = "")
         Spacer(modifier = Modifier.width(10.dp))

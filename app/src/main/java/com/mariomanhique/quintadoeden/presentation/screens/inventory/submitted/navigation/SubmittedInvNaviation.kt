@@ -7,9 +7,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.mariomanhique.quintadoeden.Util.Constants.CATEGORY_ARG
+import com.mariomanhique.quintadoeden.util.Constants.CATEGORY_ARG
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.submitted.OrderedByDateScreen
-import com.mariomanhique.quintadoeden.presentation.screens.inventory.submitted.SubmittedInventoryScreen
+import com.mariomanhique.quintadoeden.presentation.screens.inventory.submitted.SubmittedCategoriesScreen
 
 const val submittedInventoryRoute = "submittedInventoryRoute"
 const val S_INV_GRAPH_ROUTE_PATTERN = "submittedInventoryGraph"
@@ -33,7 +33,7 @@ fun NavGraphBuilder.submittedInventoryRoute(
         route =S_INV_GRAPH_ROUTE_PATTERN
     ){
         composable(route = submittedInventoryRoute){
-            SubmittedInventoryScreen(
+            SubmittedCategoriesScreen(
                 categoryClicked = navigateToSavedInveWithArgs
             )
         }
@@ -58,7 +58,7 @@ fun NavController.navigateToSOrderByDate(category: String){
 
 
 fun NavGraphBuilder.byDateRoute(
-    //navigateToSavedInveWithArgs: (String) -> Unit
+    navigateToOrderedList: (String) -> Unit
 ){
     composable(route = "$byDateRoute/{$CATEGORY_ARG}",
         arguments = listOf(navArgument(name = CATEGORY_ARG){
@@ -66,6 +66,7 @@ fun NavGraphBuilder.byDateRoute(
             nullable = true
         })
         ){
-        OrderedByDateScreen()
+
+        OrderedByDateScreen(navigateToOrderedList =navigateToOrderedList)
     }
 }

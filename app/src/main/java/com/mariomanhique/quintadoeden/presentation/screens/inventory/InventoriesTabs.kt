@@ -8,6 +8,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -23,7 +24,7 @@ import com.mariomanhique.quintadoeden.presentation.components.TopBar
 import com.mariomanhique.quintadoeden.presentation.screens.checkIn.TabItem
 import com.mariomanhique.quintadoeden.R
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun InventoriesTabs(
     popBackStack: () -> Unit

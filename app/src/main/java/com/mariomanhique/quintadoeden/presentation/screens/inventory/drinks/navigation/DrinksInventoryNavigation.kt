@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.mariomanhique.quintadoeden.Util.Constants.CATEGORY_ARG
+import com.mariomanhique.quintadoeden.util.Constants.CATEGORY_ARG
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.drinks.DrinksInventoryScreen
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.drinks.FillDrinksInventoryScreen
 

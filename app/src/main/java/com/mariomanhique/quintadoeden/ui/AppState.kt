@@ -11,13 +11,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import androidx.tracing.trace
-import com.mariomanhique.quintadoeden.Util.Constants.CATEGORY_ARG
+import com.mariomanhique.quintadoeden.util.Constants.CATEGORY_ARG
+import com.mariomanhique.quintadoeden.util.Constants.LOCAL_DATE
 import com.mariomanhique.quintadoeden.navigation.TopLevelDestination
 import com.mariomanhique.quintadoeden.presentation.screens.events.navigation.eventsRoute
 import com.mariomanhique.quintadoeden.presentation.screens.events.navigation.navigateToEvents
 import com.mariomanhique.quintadoeden.presentation.screens.home.navigation.homeRoute
 import com.mariomanhique.quintadoeden.presentation.screens.home.navigation.navigateToHome
-import com.mariomanhique.quintadoeden.presentation.screens.inventory.submitted.navigation.S_INV_GRAPH_ROUTE_PATTERN
+import com.mariomanhique.quintadoeden.presentation.screens.inventory.invList.invListByDateRoute
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.submitted.navigation.byDateRoute
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.submitted.navigation.navigateToSubGraph
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.submitted.navigation.submittedInventoryRoute
@@ -52,7 +53,7 @@ class AppState(
     val currentTopLevelDestination: TopLevelDestination?
         @Composable get() = when (currentDestination?.route) {
             homeRoute -> TopLevelDestination.HOME
-            "$byDateRoute/{$CATEGORY_ARG}" ,submittedInventoryRoute -> TopLevelDestination.INVENTORY
+            "$invListByDateRoute/{${LOCAL_DATE}}" ,"$byDateRoute/{$CATEGORY_ARG}" ,submittedInventoryRoute -> TopLevelDestination.INVENTORY
             notesNavigationRoute -> TopLevelDestination.NOTES
             eventsRoute -> TopLevelDestination.EVENTS
             else -> null

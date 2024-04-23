@@ -29,14 +29,13 @@ class AuthRepositoryImpl @Inject constructor(
         val firestore = FirebaseFirestore.getInstance().collection("profile")
 
         return try {
-            val result = firebaseAuth.createUserWithEmailAndPassword(email,password).await().user
-            if  (result != null){
-                result.updateProfile(UserProfileChangeRequest.Builder().setDisplayName(username).build())
-
-                result.email?.let {userEmail->
-                    firestore.document(result.uid).set(
+            val user = firebaseAuth.createUserWithEmailAndPassword(email,password).await().user
+            if  (user != null){
+                user.updateProfile(UserProfileChangeRequest.Builder().setDisplayName(username).build())
+                user.email?.let {userEmail->
+                    firestore.document(user.uid).set(
                         User(
-                            userId = result.uid,
+                            userId = user.uid,
                             email = userEmail,
                             username = username,
                             profilePictureUrl = ""

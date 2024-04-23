@@ -10,6 +10,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.sp
@@ -18,13 +19,16 @@ import androidx.navigation.NavDestination
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
-     title: String? = null,
+    title: String? = null,
     onActionClicked: () -> Unit ={},
     accountIcon: ImageVector? = null,
     navIcon: ImageVector? = null,
-    actionIcon: ImageVector = Icons.Filled.Notifications,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
+    actionIcon: ImageVector? = null,
     popBackStack: () -> Unit
 ) {
+
+
     TopAppBar(
         title = {
             Row {
@@ -42,12 +46,15 @@ fun TopBar(
                 }
             }
 
-    }, actions = {
+    },
+        scrollBehavior = scrollBehavior,actions = {
         IconButton(onClick = onActionClicked) {
-            Icon(
-                imageVector = actionIcon,
-                contentDescription = ""
-            )
+            if (actionIcon != null) {
+                Icon(
+                    imageVector = actionIcon,
+                    contentDescription = ""
+                )
+            }
         }
         },
         navigationIcon = {

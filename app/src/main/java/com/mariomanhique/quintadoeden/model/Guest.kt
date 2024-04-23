@@ -12,6 +12,7 @@ data class Guest(
     val adults: Int = 0,
     val child: Int = 0,
     val nights: Int = 0,
+    val responsibleCompany: String,
     val roomNr: Room = roomsList.first(),
     val isGuestResident: Boolean = false,
     val amount: Double,

@@ -1,11 +1,12 @@
-package com.mariomanhique.quintadoeden.presentation.screens.inventory.submitted
+package com.mariomanhique.quintadoeden.presentation.screens.events
 
-import androidx.lifecycle.SavedStateHandle
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mariomanhique.quintadoeden.util.Constants
 import com.mariomanhique.quintadoeden.data.repository.firestore.FirestoreRepository
+import com.mariomanhique.quintadoeden.model.Event
 import com.mariomanhique.quintadoeden.model.ProductInvToSave
+import com.mariomanhique.quintadoeden.model.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,43 +17,42 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
-class SubmittedInventoryViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
+class EventViewModel @Inject constructor(
     private val firestoreRepository: FirestoreRepository
+): ViewModel() {
 
-) :ViewModel() {
-
-    private val _items = MutableStateFlow<Map<LocalDate, List<ProductInvToSave>>>(emptyMap())
+    private val _items = MutableStateFlow<Map<LocalDate, List<Event>>>(emptyMap())
     val items = _items.asStateFlow()
 
-    val category = savedStateHandle.get<String>(
-        key = Constants.CATEGORY_ARG
-    )
-
     init {
-        if (category != null) {
-            getDates(category.lowercase())
+        getEvents()
+    }
+    fun saveEvent(
+        event: Event,
+        onSuccess: () -> Unit,
+        onError: () -> Unit,
+    ){
+        viewModelScope.launch {
+
+            val result = firestoreRepository.saveEvent(event)
+            if (result == "true"){
+                Log.d("Result", "saveEvent: $result")
+                onSuccess()
+            }else{
+                onError()
+            }
+
         }
     }
 
-
-    fun getDates(
-        category: String
-    ){
+    fun getEvents(){
         viewModelScope.launch {
-            firestoreRepository.getGroupedDates(
-                category,
-                document = "inventories"
+            firestoreRepository.getEvents(
             ).distinctUntilChanged()
                 .collectLatest {
                     _items.value = it
                 }
         }
     }
-
-
-
-
-
 
 }

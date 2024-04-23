@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.launch
 import com.mariomanhique.quintadoeden.R
+import com.mariomanhique.quintadoeden.presentation.components.EdenIcon
 import com.mariomanhique.quintadoeden.presentation.components.GoogleButton
 import com.mariomanhique.quintadoeden.presentation.screens.auth.authWithCredentials.AuthWithCredentialsViewModel
 
@@ -57,40 +58,22 @@ internal fun SignUpWithCredentials(
     var passwordVisibility by remember { mutableStateOf(false) }
 
 
-
-
-
-
-
-    Spacer(modifier = Modifier.padding(20.dp))
-
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+        EdenIcon()
 
-//        Image(
-//            painter = painterResource(id = R.drawable.diary),
-//            contentDescription = "logo"
-//        )
-
-        Text(
-            modifier = Modifier.paddingFromBaseline(top =50.dp, bottom = 50.dp),
-            text = "Sign Up",
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                letterSpacing = 2.sp
-            ),
-            fontSize = 30.sp
-        )
         OutlinedTextField(
             value = nameValue,
             enabled = isNetworkAvailable,
             onValueChange = { nameValue = it },
-            label = { Text(text = "Name") },
-            placeholder = { Text(text = "Name") },
+            label = { Text(text = "Usuário") },
+            placeholder = { Text(text = "Usuário") },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(0.8f)
         )
@@ -99,8 +82,8 @@ internal fun SignUpWithCredentials(
             value = emailValue,
             enabled = isNetworkAvailable,
             onValueChange = { emailValue = it },
-            label = { Text(text = "Email Address") },
-            placeholder = { Text(text = "Email Address") },
+            label = { Text(text = "Email") },
+            placeholder = { Text(text = "Email") },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(0.8f)
         )
@@ -110,8 +93,8 @@ internal fun SignUpWithCredentials(
             value = passwordValue,
             enabled = isNetworkAvailable,
             onValueChange = { passwordValue = it },
-            label = { Text(text = "Password") },
-            placeholder = { Text(text = "Password") },
+            label = { Text(text = "Palavra Passe") },
+            placeholder = { Text(text = "Palavra Passe") },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(0.8f),
             trailingIcon = {
@@ -133,7 +116,7 @@ internal fun SignUpWithCredentials(
 
 
         GoogleButton(
-            primaryText = "Sign Up",
+            primaryText = "Criar Conta",
             loadingState = isAuthenticated
         ) {
             if (emailValue.isNotEmpty() && passwordValue.isNotEmpty() && nameValue.isNotEmpty()) {
@@ -143,7 +126,7 @@ internal fun SignUpWithCredentials(
                     password = passwordValue,
                     onSuccess = {
                         scope.launch {
-                            onShowSnackbar("Successful Signed Up",null)
+                            onShowSnackbar("Usuário Registrado Com sucesso",null)
                         }
                         navigateToHome()
                         viewModel.resetAuthState()
@@ -162,7 +145,7 @@ internal fun SignUpWithCredentials(
         }
         Spacer(modifier = Modifier.padding(20.dp))
         Text(
-            text = "Login Instead",
+            text = "Já tem conta? Entrar",
             modifier = Modifier.clickable(onClick = {
                 navigateToSignIn()
             })

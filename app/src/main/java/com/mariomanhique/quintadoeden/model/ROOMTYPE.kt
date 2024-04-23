@@ -6,7 +6,4 @@ enum class ROOMTYPE(val displayName: String){
     DELUXE(displayName = "Deluxe"),
     DELUXE_VARANDA(displayName = "Deluxe Com Varanda");
 
-//    fun getDisplayName(): String {
-//        return displayName
-//    }
 }
