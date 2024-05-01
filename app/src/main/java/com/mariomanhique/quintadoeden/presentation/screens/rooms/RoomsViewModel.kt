@@ -2,6 +2,7 @@ package com.mariomanhique.quintadoeden.presentation.screens.rooms
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import com.mariomanhique.quintadoeden.data.repository.firestore.FirestoreRepository
 import com.mariomanhique.quintadoeden.model.Room
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -58,12 +59,17 @@ class RoomsViewModel @Inject constructor(
         onError: () -> Unit
     ){
         viewModelScope.launch {
-            firestoreRepository.editRoomCleanState(
-                roomState = roomState,
-                roomNr = roomNr,
-                onSuccess = onSuccess,
-                onError = onError
-            )
+            val user = FirebaseAuth.getInstance().currentUser
+            if (user != null){
+                firestoreRepository.editRoomCleanState(
+                    roomState = roomState,
+                    roomNr = roomNr,
+                    username = user.displayName.toString(),
+                    onSuccess = onSuccess,
+                    onError = onError
+                )
+            }
+
         }
     }
 

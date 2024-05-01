@@ -1,6 +1,7 @@
 package com.mariomanhique.quintadoeden.data.repository.firestore
 
 import com.mariomanhique.quintadoeden.model.Event
+import com.mariomanhique.quintadoeden.model.Note
 import com.mariomanhique.quintadoeden.model.ProductInv
 import com.mariomanhique.quintadoeden.model.ProductInvToSave
 import com.mariomanhique.quintadoeden.model.Room
@@ -52,8 +53,21 @@ interface FirestoreRepository {
     suspend fun editRoomCleanState(
         roomState: String,
         roomNr: String,
+        username: String,
         onSuccess: () -> Unit,
         onError: () -> Unit
+    )
+
+    suspend fun sendNote(
+        note: Note,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    )
+
+    fun getNotes(): Flow<List<Note>>
+
+    fun submitInv(
+        category: String
     )
 
 }

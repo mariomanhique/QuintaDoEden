@@ -14,6 +14,7 @@ fun NavController.navigateByDateInv(localDate: String){
 
 
 fun NavGraphBuilder.invListByDateRoute(
+    popBackStack: () -> Unit,
 ){
     composable(
         route = "$invListByDateRoute/{$LOCAL_DATE}",
@@ -23,6 +24,7 @@ fun NavGraphBuilder.invListByDateRoute(
         })
         ){
         InvListByDateScreen(
+            popBackStack = popBackStack
         )
     }
 }

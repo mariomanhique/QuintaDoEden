@@ -67,5 +67,13 @@ class FillInventoryViewModel @Inject constructor(
         }
     }
 
+    fun submitInv(){
+        viewModelScope.launch {
+            if (category != null) {
+               firestoreRepository.submitInv(category)
+            }
+        }
+    }
+
 
 }

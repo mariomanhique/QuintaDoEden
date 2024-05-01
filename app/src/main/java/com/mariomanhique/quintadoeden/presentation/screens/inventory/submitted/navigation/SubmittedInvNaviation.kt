@@ -25,7 +25,7 @@ fun NavController.navigateToSubGraph(navOptions: NavOptions?=null){
 fun NavGraphBuilder.submittedInventoryRoute(
     navigateToSavedInveWithArgs: (String) -> Unit,
     nestedGraph: NavGraphBuilder.() -> Unit,
-
+//    popBackStack: () -> Unit,
     ){
 
     navigation(
@@ -34,7 +34,8 @@ fun NavGraphBuilder.submittedInventoryRoute(
     ){
         composable(route = submittedInventoryRoute){
             SubmittedCategoriesScreen(
-                categoryClicked = navigateToSavedInveWithArgs
+                categoryClicked = navigateToSavedInveWithArgs,
+//                popBackStack = popBackStack
             )
         }
 
@@ -58,7 +59,9 @@ fun NavController.navigateToSOrderByDate(category: String){
 
 
 fun NavGraphBuilder.byDateRoute(
-    navigateToOrderedList: (String) -> Unit
+    navigateToOrderedList: (String) -> Unit,
+    popBackStack: () -> Unit,
+
 ){
     composable(route = "$byDateRoute/{$CATEGORY_ARG}",
         arguments = listOf(navArgument(name = CATEGORY_ARG){
@@ -67,6 +70,9 @@ fun NavGraphBuilder.byDateRoute(
         })
         ){
 
-        OrderedByDateScreen(navigateToOrderedList =navigateToOrderedList)
+        OrderedByDateScreen(
+            navigateToOrderedList =navigateToOrderedList,
+            popBackStack = popBackStack
+        )
     }
 }

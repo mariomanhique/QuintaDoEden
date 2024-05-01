@@ -6,6 +6,7 @@ import com.mariomanhique.quintadoeden.presentation.screens.inventory.drinks.Cate
 @Composable
 fun SubmittedCategoriesScreen(
     categoryClicked: (String) -> Unit,
+//    popBackStack: () -> Unit,
 ) {
     CategoriesGridList(
         categoryClicked = categoryClicked

@@ -4,10 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
-import com.google.firebase.auth.FirebaseAuth
 import com.mariomanhique.quintadoeden.presentation.screens.auth.authWithCredentials.signInWithCredencials.navigation.navigateToSignIn
-import com.mariomanhique.quintadoeden.presentation.screens.auth.authWithCredentials.signInWithCredencials.navigation.signInNavigationRoute
 import com.mariomanhique.quintadoeden.presentation.screens.auth.authWithCredentials.signInWithCredencials.navigation.signInRoute
 import com.mariomanhique.quintadoeden.presentation.screens.auth.authWithCredentials.signUpWithCredentials.navigation.navigateToSignUp
 import com.mariomanhique.quintadoeden.presentation.screens.auth.authWithCredentials.signUpWithCredentials.navigation.signUpRoute
@@ -15,10 +12,11 @@ import com.mariomanhique.quintadoeden.presentation.screens.checkIn.navigation.ch
 import com.mariomanhique.quintadoeden.presentation.screens.checkIn.navigation.navigateToCheckIn
 import com.mariomanhique.quintadoeden.presentation.screens.cleaning.navigation.cleaningRoute
 import com.mariomanhique.quintadoeden.presentation.screens.cleaning.navigation.navigateToCleaning
+import com.mariomanhique.quintadoeden.presentation.screens.companiesRooms.navigation.companiesRoute
+import com.mariomanhique.quintadoeden.presentation.screens.companiesRooms.navigation.navigateToCompaniesRooms
 import com.mariomanhique.quintadoeden.presentation.screens.events.navigation.eventsNavigationRoute
 import com.mariomanhique.quintadoeden.presentation.screens.guestDetails.navigation.guestDetailsRoute
 import com.mariomanhique.quintadoeden.presentation.screens.home.navigation.homeRoute
-import com.mariomanhique.quintadoeden.presentation.screens.home.navigation.navigateToHome
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.drinks.navigation.drinksInvRoute
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.drinks.navigation.fillDrinksInvRoute
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.drinks.navigation.navigateToDrinksInv
@@ -63,7 +61,8 @@ fun QDENavHost(
         homeRoute(
             navigateToCleaning = navController::navigateToCleaning,
             navigateToCheckIn = navController::navigateToCheckIn,
-            navigateToDrinksInv = navController::navigateToDrinksInv
+            navigateToDrinksInv = navController::navigateToDrinksInv,
+            navigateToCompaniesRooms = navController::navigateToCompaniesRooms
         )
 
         cleaningRoute(
@@ -87,7 +86,7 @@ fun QDENavHost(
             }
         )
         fillDrinksInvRoute(
-            popBackStack = navController::popBackStack,
+            onBackPressed = navController::popBackStack,
             onAddInventoryClicked = {}
         )
 
@@ -101,9 +100,11 @@ fun QDENavHost(
                         Log.d("Date", "OrderedByDateScreen: $it")
 
                         navController.navigateByDateInv(it)
-                    }
+                    },
+                    popBackStack = navController::popBackStack
                 )
                 invListByDateRoute(
+                    popBackStack = navController::popBackStack
                 )
             }
         )
@@ -112,7 +113,10 @@ fun QDENavHost(
 
         eventsNavigationRoute()
 
-
+        companiesRoute(
+            popBackStack = navController::popBackStack,
+            onRoomSelected = {}
+        )
 
 
 

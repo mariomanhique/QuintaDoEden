@@ -8,7 +8,9 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -21,14 +23,14 @@ import androidx.navigation.NavDestination
 fun TopBar(
     title: String? = null,
     onActionClicked: () -> Unit ={},
+    onTextActionClicked: () -> Unit ={},
     accountIcon: ImageVector? = null,
+    textAction: String? = null,
     navIcon: ImageVector? = null,
     scrollBehavior: TopAppBarScrollBehavior? = null,
     actionIcon: ImageVector? = null,
     popBackStack: () -> Unit
 ) {
-
-
     TopAppBar(
         title = {
             Row {
@@ -41,21 +43,37 @@ fun TopBar(
                 if (title != null) {
                     Text(
                         text = title,
-                        fontSize = 18.sp
+                        style = MaterialTheme.typography.titleMedium.copy(
+                        )
                     )
                 }
             }
 
     },
-        scrollBehavior = scrollBehavior,actions = {
-        IconButton(onClick = onActionClicked) {
-            if (actionIcon != null) {
+        scrollBehavior = scrollBehavior,
+        actions = {
+
+        if (textAction != null) {
+            TextButton(onClick = onTextActionClicked) {
+                Text(text = textAction,
+                    style = MaterialTheme.typography.titleMedium.copy(
+                    )
+                )
+            }
+        }
+
+
+        if (actionIcon != null) {
+                IconButton(onClick = onActionClicked) {
+
                 Icon(
                     imageVector = actionIcon,
                     contentDescription = ""
                 )
-            }
+             }
         }
+
+
         },
         navigationIcon = {
             if (navIcon != null){

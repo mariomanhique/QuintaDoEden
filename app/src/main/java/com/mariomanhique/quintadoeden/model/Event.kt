@@ -8,6 +8,7 @@ import java.util.UUID
 data class Event(
     val id: String = UUID.randomUUID().toString(),
     val adults: Int = 0,
+    val eventTitle: String ="",
     val eventType: String = "",
     val zeroTo3Kids: Int = 0,
     val fourTo9Kids: Int = 0, // Confirm this

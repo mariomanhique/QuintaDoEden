@@ -17,12 +17,14 @@ fun NavGraphBuilder.homeRoute(
     navigateToCleaning: () -> Unit,
     navigateToCheckIn: () -> Unit,
     navigateToDrinksInv: () -> Unit,
-){
+    navigateToCompaniesRooms: () -> Unit,
+    ){
    composable(route = homeRoute){
        HomeScreen(
            navigateToCleaning = navigateToCleaning,
            navigateToCheckIn = navigateToCheckIn,
-           onDrinksInventoryClicked = navigateToDrinksInv
+           onDrinksInventoryClicked = navigateToDrinksInv,
+           navigateToCompaniesRooms = navigateToCompaniesRooms
        )
    }
 }

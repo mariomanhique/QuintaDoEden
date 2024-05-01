@@ -8,7 +8,7 @@ plugins {
 
 extra["versionMajor"] = 0
 extra["versionMinor"] = 0
-extra["versionPatch"] = 5
+extra["versionPatch"] = 6
 extra["versionClassifier"] = null
 extra["isSnapshot"] = false
 extra["minSdkVersion"] = 29
@@ -123,19 +123,19 @@ dependencies {
     ksp("com.google.dagger:hilt-compiler:2.48.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 
-    implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
+    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
 
     implementation("com.google.firebase:firebase-analytics")
 
-    implementation("com.google.firebase:firebase-storage:20.3.0")
-    implementation ("com.google.firebase:firebase-auth:22.3.0")
-    implementation("com.google.firebase:firebase-firestore:24.10.0")
+    implementation("com.google.firebase:firebase-storage")
+    implementation ("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
 
     //Coil
     //implementation("io.coil-kt:coil-compose:2.4.0")
 
     //Google Auth
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    //implementation("com.google.android.gms:play-services-auth")
 
     //Splash API
     implementation("androidx.core:core-splashscreen:1.0.1")
@@ -165,4 +165,12 @@ dependencies {
 
     //Number Picker
     implementation("com.chargemap.compose:numberpicker:1.0.3")
+
+    implementation("com.google.firebase:firebase-messaging")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+
+    implementation("com.kizitonwose.calendar:compose:2.5.0")
+
 }

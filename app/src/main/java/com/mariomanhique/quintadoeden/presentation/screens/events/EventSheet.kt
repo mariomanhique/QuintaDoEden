@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -38,7 +39,7 @@ import com.mariomanhique.quintadoeden.R
 import com.mariomanhique.quintadoeden.util.toDate
 import com.mariomanhique.quintadoeden.model.Event
 import com.mariomanhique.quintadoeden.presentation.components.EdenIcon
-import com.mariomanhique.quintadoeden.presentation.screens.inventory.InputField
+import com.mariomanhique.quintadoeden.presentation.components.InputField
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
@@ -68,7 +69,7 @@ fun EventSheet(
 
     val context = LocalContext.current
 
-    var eventState by remember {
+    var eventTitleState by remember {
         mutableStateOf("")
     }
 
@@ -178,12 +179,13 @@ fun EventSheet(
             InputField(
                 modifier = Modifier
                     .fillMaxWidth(),
-                value = eventState,
+                value = eventTitleState,
                 placeholder = R.string.event,
                 isSingleLine = true,
-                maxLines = 1
+                maxLines = 1,
+                shape = MaterialTheme.shapes.small.copy(CornerSize(0.dp))
             ) {
-                eventState = it
+                eventTitleState = it
             }
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -194,7 +196,8 @@ fun EventSheet(
                 value = eventType,
                 placeholder = R.string.event_type,
                 isSingleLine = true,
-                maxLines = 1
+                maxLines = 1,
+                shape = MaterialTheme.shapes.small.copy(CornerSize(0.dp))
             ) {
                 eventType = it
             }
@@ -217,7 +220,8 @@ fun EventSheet(
                 },
                 placeholder = R.string.date,
                 isSingleLine = true,
-                maxLines = 1
+                maxLines = 1,
+                shape = MaterialTheme.shapes.small.copy(CornerSize(0.dp))
             ) {
 
             }
@@ -244,7 +248,8 @@ fun EventSheet(
                     },
                     placeholder = R.string.start_at,
                     isSingleLine = true,
-                    maxLines = 1
+                    maxLines = 1,
+                    shape = MaterialTheme.shapes.small.copy(CornerSize(0.dp))
                 ) {
 
                 }
@@ -265,7 +270,8 @@ fun EventSheet(
                     },
                     placeholder = R.string.end_at,
                     isSingleLine = true,
-                    maxLines = 1
+                    maxLines = 1,
+                    shape = MaterialTheme.shapes.small.copy(CornerSize(0.dp))
                 ) {
 
                 }
@@ -289,7 +295,8 @@ fun EventSheet(
                         value = adultsState,
                         placeholder = R.string.adults,
                         isSingleLine = true,
-                        maxLines = 1
+                        maxLines = 1,
+                        shape = MaterialTheme.shapes.small.copy(CornerSize(0.dp))
                     ) {
                         adultsState = it
                     }
@@ -301,7 +308,8 @@ fun EventSheet(
 
                         placeholder = R.string.kids_zeroTo3,
                         isSingleLine = true,
-                        maxLines = 1
+                        maxLines = 1,
+                        shape = MaterialTheme.shapes.small.copy(CornerSize(0.dp))
                     ) {
                         kid0ToState = it
                     }
@@ -311,7 +319,8 @@ fun EventSheet(
                         value = kids4ToState,
                         placeholder = R.string.kids_4To9,
                         isSingleLine = true,
-                        maxLines = 1
+                        maxLines = 1,
+                        shape = MaterialTheme.shapes.small.copy(CornerSize(0.dp))
                     ) {
                         kids4ToState = it
                     }
@@ -338,11 +347,12 @@ fun EventSheet(
             Button(
                 onClick = {
 
-                    if(eventState.isNotEmpty() && eventType.isNotEmpty() && adultsState.isNotEmpty() && kid0ToState.isNotEmpty() && kids4ToState.isNotEmpty()){
+                    if(eventTitleState.isNotEmpty() && eventType.isNotEmpty() && adultsState.isNotEmpty() && kid0ToState.isNotEmpty() && kids4ToState.isNotEmpty()){
                         eventViewModel.saveEvent(
                             event = Event(
                                 adults = adultsState.toInt(),
                                 eventType = eventType,
+                                eventTitle = eventTitleState,
                                 zeroTo3Kids = kid0ToState.toInt(),
                                 fourTo9Kids = kids4ToState.toInt(),
                                 startAt = formattedStartTime,
@@ -398,7 +408,8 @@ fun Section(
             placeholder = R.string.observation,
             onValueChange = onValueChange,
             isSingleLine = false,
-            maxLines = Int.MAX_VALUE
+            maxLines = Int.MAX_VALUE,
+            shape = MaterialTheme.shapes.small.copy(CornerSize(0.dp))
         )
 
         content()

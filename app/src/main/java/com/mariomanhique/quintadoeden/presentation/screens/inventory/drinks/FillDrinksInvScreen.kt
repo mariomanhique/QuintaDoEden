@@ -14,6 +14,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
@@ -22,6 +23,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -42,13 +44,15 @@ import com.google.firebase.auth.FirebaseAuth
 import com.mariomanhique.quintadoeden.R
 import com.mariomanhique.quintadoeden.model.ProductInv
 import com.mariomanhique.quintadoeden.model.ProductInvToSave
+import com.mariomanhique.quintadoeden.presentation.components.TopBar
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.FillInventoryViewModel
 import com.mariomanhique.quintadoeden.presentation.screens.inventory.RegisterMenuSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FillDrinksInventoryScreen(
-    fillInventoryViewModel: FillInventoryViewModel = hiltViewModel()
+    fillInventoryViewModel: FillInventoryViewModel = hiltViewModel(),
+    onBackPressed: () -> Unit
 ) {
 //    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val items by fillInventoryViewModel.items.collectAsState()
@@ -68,25 +72,21 @@ fun FillDrinksInventoryScreen(
         modifier = Modifier
             .fillMaxSize(),
     ) {
-      TopAppBar(title = {
-            Text(text = stringResource(id = R.string.newDrinkInv))
-      }, actions = {
-//          TextButton(onClick = {
-//          }) {
-//              Text(text = "Submeter")
-//          }
-          val displayName = FirebaseAuth.getInstance().currentUser?.displayName
-          if (displayName != null && displayName == "Mario Manhique"){
-              IconButton(onClick = {
-                  sheetState = true
-              }) {
-                  Icon(
-                      imageVector = Icons.Filled.Add,
-                      contentDescription = ""
-                  )
-              }
-          }
-      })
+
+        TopBar(
+            title = stringResource(id = R.string.newDrinkInv),
+            navIcon = Icons.Filled.ArrowBack,
+            textAction = "Notificar",
+            actionIcon = Icons.Filled.Add,
+            onActionClicked = {
+                sheetState = true
+            },
+            onTextActionClicked = {
+                fillInventoryViewModel.submitInv()
+            }
+        ) {
+            onBackPressed()
+        }
         FillDrinksInventoryContent(
             itemsList = items,
             onSaveClicked = {

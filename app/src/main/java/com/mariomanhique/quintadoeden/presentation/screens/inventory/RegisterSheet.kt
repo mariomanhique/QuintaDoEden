@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mariomanhique.quintadoeden.R
 import com.mariomanhique.quintadoeden.model.ProductInvToSave
+import com.mariomanhique.quintadoeden.presentation.components.InputField
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -77,7 +79,8 @@ fun RegisterMenuSheet(
                 value = productState,
                 placeholder = R.string.product,
                 isSingleLine = true,
-                maxLines = 1
+                maxLines = 1,
+                shape = MaterialTheme.shapes.small.copy(CornerSize(0.dp))
             ) {
                 productState = it
             }
@@ -90,7 +93,8 @@ fun RegisterMenuSheet(
                 value = countTypeState,
                 placeholder = R.string.countType,
                 isSingleLine = true,
-                maxLines = 1
+                maxLines = 1,
+                shape = MaterialTheme.shapes.small.copy(CornerSize(0.dp))
             ) {
                 countTypeState = it
             }
@@ -103,7 +107,8 @@ fun RegisterMenuSheet(
                 value = countNrState,
                 placeholder = R.string.countNr,
                 isSingleLine = true,
-                maxLines = 1
+                maxLines = 1,
+                shape = MaterialTheme.shapes.small.copy(CornerSize(0.dp))
             ) {
                 countNrState = it
             }
@@ -134,58 +139,4 @@ fun RegisterMenuSheet(
             }
         }
     }
-}
-
-@Composable
-fun InputField(
-    modifier: Modifier = Modifier,
-    maxLines: Int,
-    isSingleLine: Boolean,
-    scrollState: ScrollState?=null,
-    value: String,
-    trailingIcon:  @Composable() (() -> Unit)? = null,
-    @StringRes placeholder: Int,
-    onValueChange: (String) -> Unit
-) {
-
-    val scope = rememberCoroutineScope()
-
-    val focusRequester = remember { FocusRequester() }
-
-
-    OutlinedTextField(
-        modifier = modifier
-            .padding(horizontal = 20.dp)
-            .focusRequester(focusRequester = focusRequester),
-        value = value,
-        onValueChange = {
-            onValueChange(it)
-        },
-        placeholder = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                ,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-
-            }
-            Text(text = stringResource(id = placeholder))
-        },
-//        keyboardActions = KeyboardActions(
-//            onNext = {
-//                if(focusDirection != null){
-//                    focusManager.moveFocus(focusDirection)
-//                }else{
-//                    scope.launch {
-//                        scrollState?.animateScrollTo(Int.MAX_VALUE)
-//                    }
-//                    focusManager.clearFocus()
-//                }
-//            }
-//        ),
-        trailingIcon = trailingIcon,
-        maxLines = maxLines,
-        singleLine = isSingleLine
-    )
 }

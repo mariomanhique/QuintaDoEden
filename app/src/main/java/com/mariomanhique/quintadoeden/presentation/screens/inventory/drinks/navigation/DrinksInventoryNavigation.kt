@@ -38,7 +38,7 @@ fun NavController.navigateToFillDrinksInv(category: String){
 }
 
 fun NavGraphBuilder.fillDrinksInvRoute(
-    popBackStack: () -> Unit,
+    onBackPressed: () -> Unit,
     onAddInventoryClicked: () -> Unit
 ){
     composable(route = "$fillDrinksInvRoute/{$CATEGORY_ARG}",
@@ -48,7 +48,7 @@ fun NavGraphBuilder.fillDrinksInvRoute(
         })
         ){
         FillDrinksInventoryScreen(
-//            popBackStack = popBackStack,
+            onBackPressed = onBackPressed,
 //            onAddInventoryClicked = onAddInventoryClicked
         )
     }

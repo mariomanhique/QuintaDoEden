@@ -21,28 +21,45 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mariomanhique.quintadoeden.R
 import com.mariomanhique.quintadoeden.presentation.components.SummaryCard
+import com.mariomanhique.quintadoeden.presentation.screens.rooms.RoomsViewModel
 
 @Composable
 fun HomeScreen(
     navigateToCleaning: () -> Unit,
     navigateToCheckIn: () -> Unit,
+    navigateToCompaniesRooms: () -> Unit,
     onDrinksInventoryClicked: () -> Unit,
+    roomsViewModel: RoomsViewModel = hiltViewModel()
 ){
+
+    val unCleanedRooms by roomsViewModel.unCleanedRooms.collectAsStateWithLifecycle()
+
+
+
+//    whileSelect {  } ????
+
     Scaffold(
     ) {
         HomeContent(
             paddingValues = it,
             navigateToCleaning = navigateToCleaning,
             navigateToCheckIn = navigateToCheckIn,
-            onDrinksInventoryClicked = onDrinksInventoryClicked
+            navigateToCompaniesRooms = navigateToCompaniesRooms,
+            onDrinksInventoryClicked = onDrinksInventoryClicked,
+            unCleanedRooms = if (unCleanedRooms.isNotEmpty()) unCleanedRooms.count() else 0
             )
     }
 }
@@ -52,13 +69,14 @@ fun HomeContent(
     paddingValues: PaddingValues,
     navigateToCleaning: () -> Unit,
     navigateToCheckIn: () -> Unit,
+    navigateToCompaniesRooms: () -> Unit,
     onDrinksInventoryClicked: () -> Unit,
+    unCleanedRooms: Int,
 ){
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 12.dp)
-            //.padding(paddingValues)
             .padding(paddingValues.calculateStartPadding(LayoutDirection.Ltr))
             .padding(paddingValues.calculateStartPadding(LayoutDirection.Rtl)),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -74,33 +92,27 @@ fun HomeContent(
                     .fillMaxWidth()
                     .padding(5.dp)
                     .horizontalScroll(rememberScrollState()),
-                horizontalArrangement = Arrangement.spacedBy(5.dp)
+                horizontalArrangement = Arrangement.Center
             ) {
                 SummaryCard(
+                    modifier = Modifier.weight(1.33F),
                     title = R.string.check_in,
                     count = 3,
                     onSummaryClicked = navigateToCheckIn
                 )
+//                Spacer(modifier = Modifier.width(20.dp))
                 SummaryCard(
+                    modifier = Modifier.weight(1.33F),
                     title = R.string.cleaning,
-                    count = 3,
+                    count = unCleanedRooms,
                     onSummaryClicked = {
                         navigateToCleaning()
                     })
                 SummaryCard(
-                    title = R.string.checkout,
-                    count = 10,
-                    onSummaryClicked = {}
-                )
-                SummaryCard(
-                    title = R.string.booking,
-                    count = 1,
-                    onSummaryClicked = {}
-                    )
-                SummaryCard(
-                    title = R.string.in_house,
+                    modifier = Modifier.weight(1.33F),
+                    title = R.string.companies,
                     count = 20,
-                    onSummaryClicked = {}
+                    onSummaryClicked = navigateToCompaniesRooms
                 )
             }
 
@@ -182,7 +194,13 @@ fun SubSection(
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = stringResource(id = title))
+            Text(text = stringResource(id = title),
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.secondary
+                )
+            )
             Text(text = "$rooms")
         }
         Spacer(modifier = Modifier.height(10.dp))
@@ -201,7 +219,13 @@ fun HomeSection(
     Column(
         Modifier.fillMaxWidth()
     ) {
-        Text(text = stringResource(id = title))
+        Text(text = stringResource(id = title),
+            style = MaterialTheme.typography.titleMedium.copy(
+                fontSize = 19.sp,
+                fontWeight = FontWeight.SemiBold,
+                //color = MaterialTheme.colorScheme.secondary
+            )
+            )
         Spacer(modifier = Modifier.height(16.dp))
         content()
     }

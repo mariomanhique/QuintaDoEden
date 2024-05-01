@@ -53,7 +53,7 @@ class AppState(
     val currentTopLevelDestination: TopLevelDestination?
         @Composable get() = when (currentDestination?.route) {
             homeRoute -> TopLevelDestination.HOME
-            "$invListByDateRoute/{${LOCAL_DATE}}" ,"$byDateRoute/{$CATEGORY_ARG}" ,submittedInventoryRoute -> TopLevelDestination.INVENTORY
+            submittedInventoryRoute -> TopLevelDestination.INVENTORY
             notesNavigationRoute -> TopLevelDestination.NOTES
             eventsRoute -> TopLevelDestination.EVENTS
             else -> null

@@ -40,9 +40,7 @@ fun GuestCard() {
             modifier = Modifier.padding(16.dp)
 
         ) {
-            StayingInterval(isGuestResident = true)
             Spacer(modifier = Modifier.height(10.dp))
-            GuestDetails()
         }
     }
 }
@@ -53,37 +51,8 @@ fun GuestDetails() {
         modifier = Modifier.fillMaxWidth()
     ) {
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = "Mr. Alex Martin")
-            Text(
-                text = "€ 100/Noite",
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Bold
-                )
-            )
-        }
         Spacer(modifier = Modifier.height(10.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(20.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            DetailsSection(
-                icon = R.drawable.moon,
-                nightsCount = 2
-            )
-
-            DetailsSection(
-                icon = R.drawable.people,
-                adultsCount = 2,
-                childCount = 0
-            )
-        }
     }
 }
 
@@ -121,43 +90,7 @@ fun StayingInterval(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Card(
-            shape = MaterialTheme.shapes.small,
-        ) {
-            Text(
-                modifier = Modifier.padding(6.dp),
-                text = "12 Mar 24 - 14 Mar 24"
-            )
-        }
-        if (isGuestResident){
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Surface(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .size(30.dp)
-                        .padding(3.dp),
-                    color = Color.Yellow
-                ){
 
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .clip(CircleShape)
-                    ) {
-                        Text(
-                            modifier = Modifier,
-                            text = "R",
-                            style = MaterialTheme.typography.bodyLarge.copy(
-                                color = Color.Black
-                            )
-                        )
-                    }
-                }
-            }
-        }
         Text(text = "Room 201")
     }
 

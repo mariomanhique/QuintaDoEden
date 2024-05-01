@@ -7,4 +7,9 @@ import javax.inject.Inject
 @HiltViewModel
 class CheckInViewModel @Inject constructor(): ViewModel() {
 
+
+
+    init {
+
+    }
 }

@@ -38,6 +38,10 @@ fun Date.toLocalDate(): LocalDate {
     return this.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
 }
 
+fun LocalDate.emptyLocalDate(): LocalDate{
+   return LocalDate.now()
+}
+
 fun LocalDate.toDate(): Date {
     return Date.from(this.atStartOfDay(ZoneId.systemDefault()).toInstant())
 }

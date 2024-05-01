@@ -27,8 +27,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mariomanhique.quintadoeden.R
@@ -51,8 +54,8 @@ fun DrinksInventoryScreen(
             .fillMaxSize(),
     ) {
         TopBar(
+            title = stringResource(id = R.string.inventory),
             navIcon = Icons.Filled.ArrowBack,
-            actionIcon = Icons.Filled.Add,
             onActionClicked = onAddInventoryClicked,
             popBackStack = popBackStack
         )
@@ -141,6 +144,11 @@ fun InventoryCard(
             Spacer(modifier = Modifier.height(15.dp))
             Text(
                 text = category,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.secondary
+                )
             )
         }
     }

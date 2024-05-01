@@ -12,6 +12,7 @@ data class Room(
     val roomNr: String = "",
     val lastUpdated: Date = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()),
     val roomType: String = "",
+    val username: String = "",
     val observations: List<String> = emptyList()//I need to filter this by date when I show
 )
 

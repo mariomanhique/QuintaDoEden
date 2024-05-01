@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">QuintaDoEden</string>
-    <string name="check_in">Check-In</string>
-    <string name="checkout">Check-Out</string>
+    <string name="check_in">Entradas/Saídas</string>
+    <string name="checkout">Saidas</string>
+    <string name="companies">Rodopi</string>
     <string name="cleaning">Limpeza</string>
     <string name="booking">Booking</string>
     <string name="in_house">Residentes</string>
@@ -22,6 +23,7 @@
     <string name="product">Producto</string>
     <string name="countType">Tipo de Contagem</string>
     <string name="countNr">Número de Contagem</string>
+    <string name="note">Escreva o seu recado aqui</string>
 <!--    <string name="product">Producto</string>-->
 
 
@@ -37,5 +39,7 @@
     <string name="adults">Adults</string>
     <string name="date">Data do Evento</string>
     <string name="observation">Observação</string>
+    <string name="default_notification_title">Null Title</string>
+    <string name="default_notification_body">Null Body</string>
 
 </resources>

@@ -7,9 +7,9 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.snapshots
 import com.google.firebase.firestore.toObjects
 import com.mariomanhique.quintadoeden.model.Event
+import com.mariomanhique.quintadoeden.model.Note
 import com.mariomanhique.quintadoeden.model.ProductInv
 import com.mariomanhique.quintadoeden.model.ProductInvToSave
-import com.mariomanhique.quintadoeden.model.Result
 import com.mariomanhique.quintadoeden.model.Room
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.Date
 import javax.inject.Inject
@@ -32,6 +33,8 @@ class FirestoreRepositoryImpl @Inject constructor(): FirestoreRepository {
 
     private val invCategories = FirebaseFirestore.getInstance()
         .collection("inventory")
+
+
 
     private val ref = FirebaseFirestore.getInstance()
 
@@ -80,14 +83,16 @@ class FirestoreRepositoryImpl @Inject constructor(): FirestoreRepository {
         document: String,
         productInv: ProductInvToSave
     ){
-        invCategories
+        val result = invCategories
             .document(document)
             .collection("subCollection")
             .document(category)
             .collection("lista")
             .document(productInv.id)
-            .set(productInv)
+            .set(productInv).isSuccessful
     }
+
+
 
     override suspend fun saveUpdateProductInv(
         category: String,
@@ -196,10 +201,11 @@ class FirestoreRepositoryImpl @Inject constructor(): FirestoreRepository {
     }
 
     override suspend fun editRoomCleanState(
-            roomState: String,
-            roomNr: String,
-            onSuccess: () -> Unit,
-            onError: () -> Unit
+        roomState: String,
+        roomNr: String,
+        username: String,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
     ) {
        ref
             .collection("rooms")
@@ -210,7 +216,8 @@ class FirestoreRepositoryImpl @Inject constructor(): FirestoreRepository {
                     ref.collection("rooms").document(document.id)
                         .update(
                             mapOf(
-                                "roomState" to roomState
+                                "roomState" to roomState,
+                                "username" to username
                             )
                         )
                         .addOnSuccessListener {
@@ -225,5 +232,41 @@ class FirestoreRepositoryImpl @Inject constructor(): FirestoreRepository {
                 onError()
             }
 
+    }
+
+
+    override suspend fun sendNote(
+        note: Note,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
+        ref.collection("notes")
+            .document(note.noteId)
+            .set(note)
+            .addOnSuccessListener {
+               onSuccess()
+            }.addOnFailureListener {
+               onError()
+            }
+    }
+
+    override fun getNotes(): Flow<List<Note>> {
+        return ref
+            .collection("notes")
+            .orderBy(
+                "noteDate",
+                Query.Direction.ASCENDING)
+            .snapshots().map {
+                it.toObjects<Note>()
+            }
+    }
+
+    override fun submitInv(category: String) {
+        ref.collection("inventoryTrigger").document().set(
+            hashMapOf(
+                "category" to category,
+                "date" to Date.from(
+                    LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
+        )
     }
 }
