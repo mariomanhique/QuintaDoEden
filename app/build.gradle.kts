@@ -63,9 +63,9 @@ android {
 
         create("release") {
             storeFile = file("../fastlane/keystore1.jks")
-            storePassword = "mmanhique"
-            keyPassword = "mmanhique"
-            keyAlias = "upload"
+            storePassword = "**"
+            keyPassword = "**"
+            keyAlias = "**"
         }
     }
 
