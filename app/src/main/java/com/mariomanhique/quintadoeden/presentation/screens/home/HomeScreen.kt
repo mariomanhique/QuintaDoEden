@@ -110,7 +110,7 @@ fun HomeContent(
             ) {
                 SummaryCard(
                     modifier = Modifier.weight(1.33F),
-                    title = R.string.check_in,
+                    title = R.string.check_in_out,
                     count = checkIn + checkOut,
                     onSummaryClicked = navigateToCheckIn
                 )

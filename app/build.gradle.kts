@@ -8,7 +8,7 @@ plugins {
 
 extra["versionMajor"] = 1
 extra["versionMinor"] = 0
-extra["versionPatch"] = 0
+extra["versionPatch"] = 1
 extra["versionClassifier"] = null
 extra["isSnapshot"] = false
 extra["minSdkVersion"] = 29

@@ -257,6 +257,7 @@ fun RoomCard(
                 .padding(horizontal = 16.dp),
         ) {
 
+            val firstname = username.split(" ").get(0)
 
             Spacer(modifier = Modifier.height(5.dp))
 
@@ -269,7 +270,7 @@ fun RoomCard(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = if (roomState=="Limpo") "$roomState / $username" else roomState,
+                    Text(text = if (roomState=="Limpo") "$roomState / $firstname" else roomState,
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontSize = 18.sp
                         )

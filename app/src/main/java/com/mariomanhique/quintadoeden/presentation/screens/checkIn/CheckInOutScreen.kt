@@ -91,7 +91,7 @@ fun CheckInOutScreen(
             .fillMaxSize()
     ) {
         TopBar(
-            title = stringResource(id = R.string.check_in),
+            title = stringResource(id = R.string.check_in_out),
             navIcon = Icons.Filled.ArrowBack,
             textAction = "Adicionar Quarto",
             popBackStack = popBackStack
