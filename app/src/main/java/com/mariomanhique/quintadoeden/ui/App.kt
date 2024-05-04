@@ -47,8 +47,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.google.firebase.auth.FirebaseAuth
+import com.mariomanhique.quintadoeden.R
 import com.mariomanhique.quintadoeden.navigation.QDENavHost
 import com.mariomanhique.quintadoeden.navigation.TopLevelDestination
+import com.mariomanhique.quintadoeden.navigation.TopLevelDestination.NOTES
+import com.mariomanhique.quintadoeden.navigation.TopLevelDestination.HOME
+import com.mariomanhique.quintadoeden.navigation.TopLevelDestination.EVENTS
 import com.mariomanhique.quintadoeden.presentation.components.TopBar
 import com.mariomanhique.quintadoeden.presentation.screens.auth.authWithCredentials.signInWithCredencials.navigation.signInNavigationRoute
 import com.mariomanhique.quintadoeden.presentation.screens.home.navigation.homeRoute
@@ -67,7 +71,6 @@ fun App(
 
     val snackbarHostState = remember { SnackbarHostState() }
     val destination = appState.currentTopLevelDestination
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     Scaffold(
         modifier = Modifier
             .semantics {
@@ -81,10 +84,9 @@ fun App(
         topBar = {
             if (
                 destination != null && destination !=
-                TopLevelDestination.EVENTS && destination !=
-                TopLevelDestination.NOTES
+                EVENTS && destination != NOTES
                 ){
-                TopBar(title = stringResource(id = destination.iconTextId)) {
+                TopBar(title = stringResource(id = if (destination==HOME) R.string.app_name else destination.titleTextId)) {
 
                 }
             }
@@ -119,7 +121,7 @@ fun App(
                         onNavigateToDestination = appState::navigateToTopLevelDestination,
                         currentDestination = appState.currentDestination,
                         modifier = Modifier
-                            .testTag("DokkhotaNavRail")
+                            .testTag("QDENavRail")
                             .safeDrawingPadding(),
                     )
                 }

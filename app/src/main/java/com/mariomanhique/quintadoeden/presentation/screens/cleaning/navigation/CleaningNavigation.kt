@@ -22,3 +22,5 @@ fun NavGraphBuilder.cleaningRoute(
         )
     }
 }
+
+///////////////////////////////////////// History Graph ///////////

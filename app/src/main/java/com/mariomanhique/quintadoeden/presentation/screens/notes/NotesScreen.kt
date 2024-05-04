@@ -3,7 +3,6 @@ package com.mariomanhique.quintadoeden.presentation.screens.notes
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,7 +35,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mariomanhique.quintadoeden.model.Note
 import java.util.Date
-import kotlin.math.log
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

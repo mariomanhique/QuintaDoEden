@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -26,11 +25,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -75,7 +69,6 @@ fun EventsScreen(
     eventViewModel: EventViewModel = hiltViewModel()
 ) {
     val events by eventViewModel.items.collectAsStateWithLifecycle()
-
     EventsContent(events)
 }
 
@@ -93,13 +86,9 @@ fun EventsContent(
     val tabItems = listOf(
         TabItem(
             title = "Calendário",
-//            selectedIcon = Icons.Filled.Place,
-//            unSelectedIcon = Icons.Outlined.Place
         ),
         TabItem(
             title = "Lista",
-//            selectedIcon = Icons.Filled.ArrowForward,
-//            unSelectedIcon = Icons.Outlined.ArrowForward
         )
     )
 
@@ -225,7 +214,6 @@ fun EventsLazyList(
                 .padding(bottom = paddingValues.calculateBottomPadding())
                 .padding(start = paddingValues.calculateStartPadding(LayoutDirection.Ltr))
                 .padding(end = paddingValues.calculateEndPadding(LayoutDirection.Ltr)),
-//            contentPadding = PaddingValues(vertical = 6.dp)
         ) {
             events.forEach { (localDate, events) ->
                 stickyHeader {
@@ -236,7 +224,7 @@ fun EventsLazyList(
                         modifier = Modifier.animateItemPlacement(
                             tween(durationMillis = 250)
                         ),
-                        date = it.date.toLocalDate(),
+                        event = it.eventTitle,
                         zeroTo3Kids = it.zeroTo3Kids,
                         adultsCount = it.adults,
                         fourTo9Kids = it.fourTo9Kids
@@ -251,8 +239,7 @@ fun EventsLazyList(
 @Composable
 fun EventCard(
     modifier: Modifier,
-    date: LocalDate? = null,
-    event: String = "Casamento Fulano e Fulano",
+    event: String,
     zeroTo3Kids: Int,
     adultsCount: Int,
     fourTo9Kids: Int

@@ -7,6 +7,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.snapshots
 import com.google.firebase.firestore.toObjects
 import com.mariomanhique.quintadoeden.model.Event
+import com.mariomanhique.quintadoeden.model.Guest
 import com.mariomanhique.quintadoeden.model.Note
 import com.mariomanhique.quintadoeden.model.ProductInv
 import com.mariomanhique.quintadoeden.model.ProductInvToSave
@@ -191,13 +192,79 @@ class FirestoreRepositoryImpl @Inject constructor(): FirestoreRepository {
         }
     }
 
-    override fun getRooms(roomState: String): Flow<List<Room>> {
+    override fun getCompanyRooms(
+        roomState: String,
+        company: String
+    ): Flow<List<Room>> {
         return ref
             .collection("rooms")
             .whereEqualTo("roomState",roomState)
+            .whereEqualTo("company",company)
             .snapshots().map {
                 it.toObjects<Room>()
             }
+    }
+
+    override fun getRooms(
+        roomState: String,
+    ): Flow<List<Room>> {
+        return ref
+            .collection("rooms")
+            .whereEqualTo("roomState",roomState)
+            .whereEqualTo("company","")
+            .snapshots().map {
+                it.toObjects<Room>()
+            }
+    }
+
+    override fun getFilteredGuests(isCheckIn: Boolean, isCheckOut: Boolean): Flow<List<Guest>> {
+        return ref
+            .collection("guests")
+            .whereEqualTo("isCheckIn", isCheckIn)
+            .whereEqualTo("isCheckOut", isCheckOut)
+            .snapshots().map {
+                it.toObjects<Guest>()
+            }
+    }
+
+    override fun getAllGuests(): Flow<List<Guest>> {
+        return ref
+            .collection("guests")
+            .snapshots().map {
+                it.toObjects<Guest>()
+            }
+    }
+
+    override suspend fun editGuest(
+        guest: Guest,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
+       ref
+        .collection("guests")
+        .whereEqualTo("roomNr", guest.roomNr)
+        .get()
+        .addOnSuccessListener { documents ->
+            for (document in documents) {
+                ref.collection("guests")
+                    .document(document.id)
+                    .update(
+                        mapOf(
+                            "isCheckIn" to guest.isCheckIn,
+                            "isCheckOut" to guest.isCheckOut
+                        )
+                    )
+                    .addOnSuccessListener {
+                        onSuccess()
+                    }
+                    .addOnFailureListener { e ->
+                        onError()
+                    }
+            }
+        }
+        .addOnFailureListener { e ->
+            onError()
+        }
     }
 
     override suspend fun editRoomCleanState(

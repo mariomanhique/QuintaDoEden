@@ -5,19 +5,6 @@ import java.time.ZoneId
 import java.util.Date
 import java.util.UUID
 
-data class Inventory(
-    val id: String,
-    val item: String,
-    val count: Int
-)
-
-data class Drink(
-    val id: String = UUID.randomUUID().toString(),
-    val item: String = "",
-    val count: Int = 0,
-    val countType: String = "" //Unid / Emb(6)
-)
-
 data class ProductInv(
     val id: String = UUID.randomUUID().toString(),
     val item: String = "",

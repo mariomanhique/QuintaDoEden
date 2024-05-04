@@ -49,7 +49,6 @@ fun NavGraphBuilder.fillDrinksInvRoute(
         ){
         FillDrinksInventoryScreen(
             onBackPressed = onBackPressed,
-//            onAddInventoryClicked = onAddInventoryClicked
         )
     }
 }

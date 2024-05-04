@@ -5,8 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mariomanhique.quintadoeden.data.repository.firestore.FirestoreRepository
 import com.mariomanhique.quintadoeden.model.Event
-import com.mariomanhique.quintadoeden.model.ProductInvToSave
-import com.mariomanhique.quintadoeden.model.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

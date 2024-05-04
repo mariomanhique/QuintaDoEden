@@ -30,7 +30,6 @@ class InvByDateViewModel @Inject constructor(
     )
     init {
         val list = dateCategory?.split("&")
-            Log.d("List", ": $dateCategory")
 
         if (list != null){
             val date = list[0]

@@ -6,9 +6,9 @@ plugins {
     id("com.google.dagger.hilt.android")
 }
 
-extra["versionMajor"] = 0
+extra["versionMajor"] = 1
 extra["versionMinor"] = 0
-extra["versionPatch"] = 6
+extra["versionPatch"] = 0
 extra["versionClassifier"] = null
 extra["isSnapshot"] = false
 extra["minSdkVersion"] = 29

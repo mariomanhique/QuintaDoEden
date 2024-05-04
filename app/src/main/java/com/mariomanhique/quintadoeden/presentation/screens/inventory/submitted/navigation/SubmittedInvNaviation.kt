@@ -25,7 +25,6 @@ fun NavController.navigateToSubGraph(navOptions: NavOptions?=null){
 fun NavGraphBuilder.submittedInventoryRoute(
     navigateToSavedInveWithArgs: (String) -> Unit,
     nestedGraph: NavGraphBuilder.() -> Unit,
-//    popBackStack: () -> Unit,
     ){
 
     navigation(
@@ -35,7 +34,6 @@ fun NavGraphBuilder.submittedInventoryRoute(
         composable(route = submittedInventoryRoute){
             SubmittedCategoriesScreen(
                 categoryClicked = navigateToSavedInveWithArgs,
-//                popBackStack = popBackStack
             )
         }
 

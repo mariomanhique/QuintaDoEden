@@ -8,14 +8,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -45,10 +43,7 @@ fun DrinksInventoryScreen(
     popBackStack: () -> Unit,
     onAddInventoryClicked: () -> Unit,
     categoryClicked: (String) -> Unit,
-    inventoryViewModel: InventoryViewModel = hiltViewModel()
 ) {
-    val categories by inventoryViewModel.categories.collectAsStateWithLifecycle()
-
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -61,7 +56,6 @@ fun DrinksInventoryScreen(
         )
 
         CategoriesGridList(
-//            categories = categories,
             categoryClicked = categoryClicked
         )
     }
@@ -69,7 +63,6 @@ fun DrinksInventoryScreen(
 
 @Composable
 fun CategoriesGridList(
-//    categories: List<String>,
     categoryClicked: (String) -> Unit
 ) {
     LazyVerticalGrid(

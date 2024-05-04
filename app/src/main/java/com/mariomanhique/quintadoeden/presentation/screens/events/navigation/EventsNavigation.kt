@@ -5,7 +5,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.mariomanhique.quintadoeden.presentation.screens.events.EventsScreen
-import com.mariomanhique.quintadoeden.presentation.screens.notes.NotesScreen
 
 const val eventsRoute = "eventsRoute"
 

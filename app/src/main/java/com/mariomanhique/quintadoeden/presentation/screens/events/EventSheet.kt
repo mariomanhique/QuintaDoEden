@@ -2,6 +2,7 @@ package com.mariomanhique.quintadoeden.presentation.screens.events
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -10,14 +11,18 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -36,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mariomanhique.quintadoeden.R
+import com.mariomanhique.quintadoeden.model.EVENTTYPE
 import com.mariomanhique.quintadoeden.util.toDate
 import com.mariomanhique.quintadoeden.model.Event
 import com.mariomanhique.quintadoeden.presentation.components.EdenIcon
@@ -65,6 +71,10 @@ fun EventSheet(
     val startTimeDialog = rememberSheetState()
     var adultsState by remember {
         mutableStateOf("")
+    }
+
+    var dropdownState by remember {
+        mutableStateOf(false)
     }
 
     val context = LocalContext.current
@@ -109,20 +119,8 @@ fun EventSheet(
 
     var dateTimeUpdated by remember { mutableStateOf(false) }
 
-//    val selectedDiaryDateTime = remember(selectedDiary) {
-//        if (selectedDiary != null) {
-//            DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a", Locale.getDefault())
-//                .withZone(ZoneId.systemDefault())
-//                .format(selectedDiary.date.toInstant())
-//        } else "Unknown"
-//    }
 
     val configuration = LocalConfiguration.current
-
-    val screenHeight = configuration.screenHeightDp.dp
-    val screenWidth = configuration.screenWidthDp.dp
-
-//    val scrennEdges = configuration.
 
     AlertDialog(
         modifier = Modifier
@@ -137,6 +135,18 @@ fun EventSheet(
         ),
         onDismissRequest = onDismissRequest,
     ) {
+
+        if (dropdownState){
+            DropDown(
+                expandDropDown = dropdownState,
+                onDismiss = {
+                    dropdownState = false
+                },
+                onItemSelected = {
+                    eventType = it
+                }
+            )
+        }
 
         Column(
             modifier = Modifier
@@ -195,11 +205,20 @@ fun EventSheet(
                     .fillMaxWidth(),
                 value = eventType,
                 placeholder = R.string.event_type,
+                trailingIcon = {
+                    IconButton(onClick = {
+                        dropdownState = true
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.KeyboardArrowDown,
+                            contentDescription = ""
+                        )
+                    }
+                },
                 isSingleLine = true,
                 maxLines = 1,
                 shape = MaterialTheme.shapes.small.copy(CornerSize(0.dp))
             ) {
-                eventType = it
             }
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -375,6 +394,38 @@ fun EventSheet(
             }
 
             Spacer(modifier = Modifier.height(30.dp))
+        }
+    }
+}
+
+
+@Composable
+fun DropDown(
+    expandDropDown: Boolean,
+    onDismiss: () -> Unit,
+    onItemSelected: (String) -> Unit
+) {
+
+    var expanded by remember { mutableStateOf(expandDropDown) }
+    val items = EVENTTYPE.entries.toList()
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentSize(Alignment.TopEnd)
+    ) {
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { onDismiss() }
+        ) {
+            items.forEachIndexed { index, company ->
+                DropdownMenuItem(
+                    text = { Text(company.name) },
+                    onClick = {
+                        onItemSelected(company.name)
+                    }
+                )
+            }
         }
     }
 }

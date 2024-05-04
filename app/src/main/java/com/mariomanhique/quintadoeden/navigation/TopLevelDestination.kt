@@ -2,19 +2,13 @@ package com.mariomanhique.quintadoeden.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Assignment
-import androidx.compose.material.icons.outlined.AutoGraph
-import androidx.compose.material.icons.outlined.Autorenew
 import androidx.compose.material.icons.outlined.Event
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.rounded.Assignment
-import androidx.compose.material.icons.rounded.AutoGraph
-import androidx.compose.material.icons.rounded.Autorenew
 import androidx.compose.material.icons.rounded.Event
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Notifications
-import androidx.compose.material.icons.rounded.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.mariomanhique.quintadoeden.R
 

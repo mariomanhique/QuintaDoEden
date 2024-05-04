@@ -32,24 +32,13 @@ fun InventoriesTabs(
     val tabItems = listOf(
         TabItem(
             title = "Bebida",
-//            selectedIcon = Icons.Filled.Place,
-//            unSelectedIcon = Icons.Outlined.Place
         ),
         TabItem(
             title = "P.Almoço",
-//            selectedIcon = Icons.Filled.ArrowForward,
-//            unSelectedIcon = Icons.Outlined.ArrowForward
         ),
         TabItem(
             title = "Comida",
-//            selectedIcon = Icons.Filled.ArrowForward,
-//            unSelectedIcon = Icons.Outlined.ArrowForward
         ),
-//        TabItem(
-//            title = "Todo Mês",
-////            selectedIcon = Icons.Filled.ArrowForward,
-////            unSelectedIcon = Icons.Outlined.ArrowForward
-//        )
     )
 
     var selectedTabIndex by remember {
@@ -107,5 +96,4 @@ fun InventoriesTabs(
         }
 
     }
-//    CheckInContent()
 }

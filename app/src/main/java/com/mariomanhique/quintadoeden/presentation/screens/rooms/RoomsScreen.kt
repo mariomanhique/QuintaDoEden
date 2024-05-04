@@ -1,5 +1,6 @@
 package com.mariomanhique.quintadoeden.presentation.screens.rooms
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.firebase.auth.FirebaseAuth
 import com.mariomanhique.quintadoeden.R
 import com.mariomanhique.quintadoeden.model.Room
 import com.mariomanhique.quintadoeden.presentation.components.TopBar
@@ -57,19 +59,18 @@ fun RoomsScreen(
     roomsViewModel: RoomsViewModel = hiltViewModel()
 ) {
 
-    val cleanedRooms by roomsViewModel.items.collectAsStateWithLifecycle()
+    val cleanRooms by roomsViewModel.items.collectAsStateWithLifecycle()
     val unCleanedRooms by roomsViewModel.unCleanedRooms.collectAsStateWithLifecycle()
+
+    Log.d("Rooms", "CheckInOutContent:$cleanRooms")
+
 
     val tabItems = listOf(
         TabItem(
             title = "Sujos",
-//            selectedIcon = Icons.Filled.Place,
-//            unSelectedIcon = Icons.Outlined.Place
         ),
         TabItem(
             title = "Limpos",
-//            selectedIcon = Icons.Filled.ArrowForward,
-//            unSelectedIcon = Icons.Outlined.ArrowForward
         )
     )
 
@@ -97,7 +98,11 @@ fun RoomsScreen(
        TopBar(
            title = stringResource(id = R.string.cleaning),
            navIcon = Icons.Filled.ArrowBack,
-           popBackStack = popBackStack
+           popBackStack = popBackStack,
+           textAction = "Histórico",
+           onTextActionClicked = {
+
+           }
        )
         TabRow(selectedTabIndex = selectedTabIndex) {
             tabItems.forEachIndexed { index, tabItem ->
@@ -163,7 +168,7 @@ fun RoomsScreen(
                                 onError = {}
                             )
                         },
-                        rooms = cleanedRooms
+                        rooms = cleanRooms
                     )
                 }
             }
@@ -178,10 +183,8 @@ fun RoomsContent(
     onDirtySelected: (Room)-> Unit
 ) {
 
-    //Filtrar automaticamente quartos sujos
     LazyColumn(
         modifier = Modifier,
-//            .navigationBarsPadding()
         verticalArrangement = Arrangement.Top
     ) {
         items(items = rooms){
@@ -189,6 +192,7 @@ fun RoomsContent(
                 roomType = it.roomType,
                 roomNr = it.roomNr,
                 roomState = it.roomState,
+                username = it.username,
                 roomAvailability = it.roomAvailability,
                 onCleanSelected = {
 
@@ -196,9 +200,6 @@ fun RoomsContent(
                     roomState = if (it.roomState == "Sujo") "Limpo" else "Sujo"
                 )) },
                 onDirtySelected = {
-//                    onDirtySelected(
-//                    it.copy(
-//                        roomState = "Sujo")
                 },
                 observations = it.observations
             )
@@ -213,6 +214,7 @@ fun RoomCard(
     roomType: String,
     roomNr: String,
     roomState: String,
+    username: String,
     roomAvailability: String,
     observations: List<String>,
     onCleanSelected: ()-> Unit,
@@ -252,16 +254,22 @@ fun RoomCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp),
+                .padding(horizontal = 16.dp),
         ) {
 
-                Text(text = "$roomNr. $roomType")
+
+            Spacer(modifier = Modifier.height(5.dp))
+
+                Text(
+                    text = "$roomNr. $roomType",
+                    style = MaterialTheme.typography.titleMedium
+                )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = roomState,
+                    Text(text = if (roomState=="Limpo") "$roomState / $username" else roomState,
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontSize = 18.sp
                         )
@@ -301,7 +309,6 @@ fun DropDown(
     onDirtySelected: () -> Unit
 ) {
 
-    val context = LocalContext.current
     var expanded by remember { mutableStateOf(expandDropDown) }
 
     Box(

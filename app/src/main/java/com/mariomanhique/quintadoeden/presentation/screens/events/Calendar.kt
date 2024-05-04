@@ -1,12 +1,10 @@
 package com.mariomanhique.quintadoeden.presentation.screens.events
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -38,7 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -46,7 +43,6 @@ import androidx.compose.ui.unit.sp
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
 import com.kizitonwose.calendar.core.CalendarDay
-import com.kizitonwose.calendar.core.CalendarMonth
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
@@ -69,7 +65,6 @@ fun CustomCalendar(
     val currentMonth = remember { YearMonth.now() }
     val startMonth = remember { currentMonth.minusMonths(100) } // Adjust as needed
     val endMonth = remember { currentMonth.plusMonths(100) } // Adjust as needed
-    val firstDayOfWeek = remember { firstDayOfWeekFromLocale() } // Available from the library
 
     val daysOfWeek = daysOfWeek(firstDayOfWeek = DayOfWeek.MONDAY)
     var calendarDay by remember {
@@ -121,7 +116,6 @@ fun CustomCalendar(
             }
         }
 
-       //DaysOfWeekTitle(daysOfWeek = daysOfWeek)
         HorizontalCalendar(
             state = state,
             dayContent = {
@@ -132,7 +126,6 @@ fun CustomCalendar(
                     calendarDay = it
             },
             currentDate = {currentCalendarDate->
-//                calendarDay = currentCalendarDate
             }) },
             monthHeader = {month->
                 val daysOfWeek = remember {
@@ -145,37 +138,28 @@ fun CustomCalendar(
         Spacer(modifier = Modifier.height(2.dp))
         if (events.isNotEmpty()){
             LazyColumn() {
-                events.forEach { localDate, events ->
-                   items(items =  events.filter {
-                       it.date.toLocalDate() == calendarDay.date
-                   }){
-                       Row(
-                           modifier = Modifier.fillMaxWidth()
-                       ) {
-                           EventMiniCard(
-                               localDate = it.date.toLocalDate()
-                           )
-                           EventMiniCard(
-                               Modifier.width((configuration.screenWidthDp.dp/7)*6),
-                               eventTitle = it.eventTitle
-                           )
-                       }
-                   }
+                events.forEach { localDate, mappedEvents ->
 
-                    if (events.filter {
+                    if (mappedEvents.filter {
                             it.date.toLocalDate() == calendarDay.date
                         }.isEmpty()){
                         item {
-                            Text(
-                                text = "Nenhum Evento Marcado para o dia ${calendarDay.date.dayOfMonth} de" +
-                                        " ${calendarDay.date.month.getDisplayName(TextStyle.FULL, Locale.forLanguageTag("PT"))
-                                            .replaceFirstChar {
-                                                if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
-                                            }} de ${calendarDay.date.year}",
-                                maxLines = 4,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.padding(16.dp),
-                            )
+                        }
+                    } else {
+                        items(items =  mappedEvents.filter {
+                            it.date.toLocalDate() == calendarDay.date
+                        }){
+                            Row(
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                EventMiniCard(
+                                    localDate = it.date.toLocalDate()
+                                )
+                                EventMiniCard(
+                                    Modifier.width((configuration.screenWidthDp.dp/7)*6),
+                                    eventTitle = it.eventTitle
+                                )
+                            }
                         }
                     }
 
@@ -183,28 +167,9 @@ fun CustomCalendar(
             }
 
         }
-
-       // if (calendarDay.date)
     }
 
 
-//    If you need a vertical calendar.
-//    VerticalCalendar(
-//        state = state,
-//        dayContent = { Day(it) }
-//    )
-
-//
-//    val state = rememberWeekCalendarState(
-//        startDate = startDate,
-//        endDate = endDate,
-//        firstVisibleWeekDate = currentDate,
-//        firstDayOfWeek = firstDayOfWeek
-//    )
-//    WeekCalendar(
-//        state = state,
-//        dayContent = { Day(it) }
-//    )
 }
 
 
@@ -316,10 +281,7 @@ fun Day(
 
 }
 
-@Composable
-fun EventMarker() {
-    
-}
+
 @Composable
 fun DaysOfWeekTitle(daysOfWeek: List<DayOfWeek>) {
     Row(modifier = Modifier.fillMaxWidth()) {

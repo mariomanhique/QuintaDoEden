@@ -23,7 +23,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.mariomanhique.quintadoeden.R
 import com.mariomanhique.quintadoeden.presentation.components.DateHeader
 import com.mariomanhique.quintadoeden.presentation.components.TopBar
-import java.time.LocalDate
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -70,20 +69,3 @@ fun OrderedByDateScreen(
     }
 
 }
-
-//@Composable
-//fun OrderedByDateContent(
-//    inventoryDate: LocalDate
-//) {
-//    ByDateCard(inventoryDate = inventoryDate)
-//}
-//
-//@OptIn(ExperimentalMaterialApi::class)
-//@Composable
-//fun ByDateCard(
-//    inventoryDate: LocalDate
-//) {
-//    Surface(onClick = { /*TODO*/ }) {
-//        Text(text = "${inventoryDate}")
-//    }
-//}

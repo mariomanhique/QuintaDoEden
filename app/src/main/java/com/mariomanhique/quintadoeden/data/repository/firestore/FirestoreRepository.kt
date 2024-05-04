@@ -1,6 +1,7 @@
 package com.mariomanhique.quintadoeden.data.repository.firestore
 
 import com.mariomanhique.quintadoeden.model.Event
+import com.mariomanhique.quintadoeden.model.Guest
 import com.mariomanhique.quintadoeden.model.Note
 import com.mariomanhique.quintadoeden.model.ProductInv
 import com.mariomanhique.quintadoeden.model.ProductInvToSave
@@ -48,7 +49,29 @@ interface FirestoreRepository {
 
     fun getEvents(): Flow<Map<LocalDate, List<Event>>>
 
-    fun getRooms(roomState: String): Flow<List<Room>>
+    fun getCompanyRooms(
+        roomState: String,
+        company: String
+    ): Flow<List<Room>>
+
+    fun getRooms(
+        roomState: String,
+    ): Flow<List<Room>>
+
+    fun getFilteredGuests(
+        isCheckIn: Boolean = true,
+        isCheckOut: Boolean = false,
+    ): Flow<List<Guest>>
+
+   suspend fun editGuest(
+        guest: Guest,
+//        roomNr: String,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    )
+
+    fun getAllGuests(
+    ): Flow<List<Guest>>
 
     suspend fun editRoomCleanState(
         roomState: String,

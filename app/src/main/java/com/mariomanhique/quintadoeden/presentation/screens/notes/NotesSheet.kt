@@ -1,10 +1,5 @@
 package com.mariomanhique.quintadoeden.presentation.screens.notes
 
-import android.Manifest
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.pm.PackageManager
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -48,7 +43,6 @@ fun NotesSheet(
     notesVieModel: NotesVieModel = hiltViewModel()
 ) {
 
-    val context = LocalContext.current
 
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -117,28 +111,6 @@ fun NotesSheet(
                             e.message
                         }
                     }
-//                        val channel = NotificationChannel(
-//                            "Novo Recado",
-//                            "Quinda Do Eden Recados",
-//                            NotificationManager.IMPORTANCE_HIGH
-//                        )
-
-//                       context.getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
-//
-//                        val notification = Notification.Builder(context,"Novo Recado")
-//                            .setContentTitle("Title")
-//                            .setContentText("New Note")
-//                            .setSmallIcon(R.drawable.people)
-//                            .setAutoCancel(true)
-//
-//                        if (ActivityCompat.checkSelfPermission(
-//                                context,
-//                                Manifest.permission.POST_NOTIFICATIONS
-//                            ) != PackageManager.PERMISSION_GRANTED
-//                        ) {
-//                            return@IconButton
-//                        }
-//                        NotificationManagerCompat.from(context).notify(1,notification.build())
                 }) {
                     Icon(
                         modifier = Modifier

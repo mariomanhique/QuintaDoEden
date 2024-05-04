@@ -33,7 +33,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mariomanhique.quintadoeden.R
+import com.mariomanhique.quintadoeden.model.Guest
 import com.mariomanhique.quintadoeden.presentation.components.SummaryCard
+import com.mariomanhique.quintadoeden.presentation.screens.companiesRooms.CompaniesRoomsViewModel
 import com.mariomanhique.quintadoeden.presentation.screens.rooms.RoomsViewModel
 
 @Composable
@@ -42,24 +44,28 @@ fun HomeScreen(
     navigateToCheckIn: () -> Unit,
     navigateToCompaniesRooms: () -> Unit,
     onDrinksInventoryClicked: () -> Unit,
-    roomsViewModel: RoomsViewModel = hiltViewModel()
+    roomsViewModel: RoomsViewModel = hiltViewModel(),
+    companiesRoomsViewModel: CompaniesRoomsViewModel = hiltViewModel()
 ){
 
     val unCleanedRooms by roomsViewModel.unCleanedRooms.collectAsStateWithLifecycle()
-
-
-
-//    whileSelect {  } ????
+    val companyUncleanedRooms by companiesRoomsViewModel.unCleanedRooms.collectAsStateWithLifecycle()
+    val inGuests by roomsViewModel.inGuests.collectAsStateWithLifecycle()
+    val outGuests by roomsViewModel.outGuests.collectAsStateWithLifecycle()
 
     Scaffold(
+
     ) {
         HomeContent(
             paddingValues = it,
             navigateToCleaning = navigateToCleaning,
             navigateToCheckIn = navigateToCheckIn,
+            checkInList = inGuests,
+            checkOutList = outGuests,
             navigateToCompaniesRooms = navigateToCompaniesRooms,
             onDrinksInventoryClicked = onDrinksInventoryClicked,
-            unCleanedRooms = if (unCleanedRooms.isNotEmpty()) unCleanedRooms.count() else 0
+            unCleanedRooms = if (unCleanedRooms.isNotEmpty()) unCleanedRooms.count() else 0,
+            companyUnCleanedRooms = if (companyUncleanedRooms.isNotEmpty()) companyUncleanedRooms.count() else 0
             )
     }
 }
@@ -69,10 +75,18 @@ fun HomeContent(
     paddingValues: PaddingValues,
     navigateToCleaning: () -> Unit,
     navigateToCheckIn: () -> Unit,
+    checkInList: List<Guest>,
+    checkOutList: List<Guest>,
     navigateToCompaniesRooms: () -> Unit,
     onDrinksInventoryClicked: () -> Unit,
     unCleanedRooms: Int,
+    companyUnCleanedRooms: Int,
 ){
+
+    val checkIn = checkInList.count()
+    val checkOut = checkOutList.count()
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -97,10 +111,9 @@ fun HomeContent(
                 SummaryCard(
                     modifier = Modifier.weight(1.33F),
                     title = R.string.check_in,
-                    count = 3,
+                    count = checkIn + checkOut,
                     onSummaryClicked = navigateToCheckIn
                 )
-//                Spacer(modifier = Modifier.width(20.dp))
                 SummaryCard(
                     modifier = Modifier.weight(1.33F),
                     title = R.string.cleaning,
@@ -111,7 +124,7 @@ fun HomeContent(
                 SummaryCard(
                     modifier = Modifier.weight(1.33F),
                     title = R.string.companies,
-                    count = 20,
+                    count = companyUnCleanedRooms,
                     onSummaryClicked = navigateToCompaniesRooms
                 )
             }
@@ -141,7 +154,9 @@ fun HomeContent(
                         modifier = Modifier
                             .height(150.dp)
                             .weight(3F),
-                        onClick = {},
+                        onClick = {
+                             navigateToCheckIn()
+                        },
                         shape = MaterialTheme.shapes.small,
                         shadowElevation = 4.dp
                     ) {
@@ -151,22 +166,17 @@ fun HomeContent(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
+
                             SubSection(
-                                title = R.string.available,
-                                progress = 0.8F,
-                                rooms = 15
+                                title = R.string.check_in,
+                                progress = if (checkIn != 0) (100 * checkIn/(checkIn + checkOut)).toFloat()   else 0F              ,
+                                rooms = checkIn
                             )
                             Spacer(modifier = Modifier.height(10.dp))
                             SubSection(
-                                title = R.string.sold,
-                                progress = 0.8F,
-                                rooms = 15
-                            )
-                            Spacer(modifier = Modifier.height(10.dp))
-                            SubSection(
-                                title = R.string.blocked,
-                                progress = 0.8F,
-                                rooms = 15
+                                title = R.string.checkout,
+                                progress = if (checkOut != 0)  (100 * checkOut/(checkIn + checkOut)).toFloat() else 0F,
+                                rooms = checkOut
                             )
                         }
                     }
@@ -184,14 +194,16 @@ fun SubSection(
     rooms: Int
 ) {
     Column(
-        modifier =  Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp),
         horizontalAlignment =Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Row(
             modifier =  Modifier
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(text = stringResource(id = title),
@@ -201,11 +213,19 @@ fun SubSection(
                     color = MaterialTheme.colorScheme.secondary
                 )
             )
-            Text(text = "$rooms")
+            Text(
+                text = "$rooms",
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.secondary)
+                )
         }
         Spacer(modifier = Modifier.height(10.dp))
         LinearProgressIndicator(
-            modifier = Modifier.height(6.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(6.dp),
             progress = progress
         )
     }
@@ -223,7 +243,6 @@ fun HomeSection(
             style = MaterialTheme.typography.titleMedium.copy(
                 fontSize = 19.sp,
                 fontWeight = FontWeight.SemiBold,
-                //color = MaterialTheme.colorScheme.secondary
             )
             )
         Spacer(modifier = Modifier.height(16.dp))

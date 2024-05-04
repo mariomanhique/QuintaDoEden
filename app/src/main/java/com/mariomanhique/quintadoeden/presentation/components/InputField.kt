@@ -5,15 +5,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.annotation.StringRes
 import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
@@ -44,18 +40,6 @@ fun InputField(
         placeholder = {
             Text(text = stringResource(id = placeholder))
         },
-//        keyboardActions = KeyboardActions(
-//            onNext = {
-//                if(focusDirection != null){
-//                    focusManager.moveFocus(focusDirection)
-//                }else{
-//                    scope.launch {
-//                        scrollState?.animateScrollTo(Int.MAX_VALUE)
-//                    }
-//                    focusManager.clearFocus()
-//                }
-//            }
-//        ),
         trailingIcon = trailingIcon,
         shape = shape,
         maxLines = maxLines,

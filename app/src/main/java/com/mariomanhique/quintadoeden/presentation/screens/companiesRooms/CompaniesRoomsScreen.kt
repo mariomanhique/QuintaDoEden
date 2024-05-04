@@ -30,18 +30,17 @@ import com.mariomanhique.quintadoeden.R
 import com.mariomanhique.quintadoeden.presentation.components.TopBar
 import com.mariomanhique.quintadoeden.presentation.screens.checkIn.TabItem
 import com.mariomanhique.quintadoeden.presentation.screens.rooms.RoomsContent
-import com.mariomanhique.quintadoeden.presentation.screens.rooms.RoomsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun CompaniesRoomsScreen(
     popBackStack: () -> Unit,
     onRoomSelected: ()-> Unit,
-    roomsViewModel: RoomsViewModel = hiltViewModel()
+    companiesViewModel: CompaniesRoomsViewModel = hiltViewModel()
 ) {
 
-    val cleanedRooms by roomsViewModel.items.collectAsStateWithLifecycle()
-    val unCleanedRooms by roomsViewModel.unCleanedRooms.collectAsStateWithLifecycle()
+    val cleanedRooms by companiesViewModel.cleanedRooms.collectAsStateWithLifecycle()
+    val unCleanedRooms by companiesViewModel.unCleanedRooms.collectAsStateWithLifecycle()
 
     val tabItems = listOf(
         TabItem(
@@ -80,7 +79,11 @@ fun CompaniesRoomsScreen(
         TopBar(
             title = stringResource(id = R.string.cleaning),
             navIcon = Icons.Filled.ArrowBack,
-            popBackStack = popBackStack
+            popBackStack = popBackStack,
+            textAction = "Histórico",
+            onTextActionClicked = {
+
+            }
         )
         TabRow(selectedTabIndex = selectedTabIndex) {
             tabItems.forEachIndexed { index, tabItem ->
@@ -110,7 +113,7 @@ fun CompaniesRoomsScreen(
                 0 -> {
                     RoomsContent(
                         onCleanSelected = {
-                            roomsViewModel.editRoomCleanState(
+                            companiesViewModel.editRoomCleanState(
                                 roomState = it.roomState,
                                 roomNr = it.roomNr,
                                 onSuccess = {},
@@ -118,7 +121,7 @@ fun CompaniesRoomsScreen(
                             )
                         },
                         onDirtySelected = {
-                            roomsViewModel.editRoomCleanState(
+                            companiesViewModel.editRoomCleanState(
                                 roomState = it.roomState,
                                 roomNr = it.roomNr,
                                 onSuccess = {},
@@ -131,7 +134,7 @@ fun CompaniesRoomsScreen(
                 1 -> {
                     RoomsContent(
                         onCleanSelected = {
-                            roomsViewModel.editRoomCleanState(
+                            companiesViewModel.editRoomCleanState(
                                 roomState = it.roomState,
                                 roomNr = it.roomNr,
                                 onSuccess = {},
@@ -139,7 +142,7 @@ fun CompaniesRoomsScreen(
                             )
                         },
                         onDirtySelected = {
-                            roomsViewModel.editRoomCleanState(
+                            companiesViewModel.editRoomCleanState(
                                 roomState = it.roomState,
                                 roomNr = it.roomNr,
                                 onSuccess = {},
