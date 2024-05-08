@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.mariomanhique.quintadoeden.model.Note
 import java.util.Date
 
@@ -49,18 +50,17 @@ fun NotesScreen(
         mutableStateOf(false)
     }
 
-
-    if(sheetState){
-        NotesSheet(
-            onDismissRequest = {
-                sheetState = false
-            }
-        )
+    var message by remember {
+        mutableStateOf("")
     }
+
+
+
 
     Column(
         modifier =  Modifier
             .fillMaxSize(),
+//        verticalArrangement = Arra
 
     ) {
         TopBar(
@@ -73,6 +73,28 @@ fun NotesScreen(
         )
         NotesContent(notes)
 
+        MessageCard(
+            message = message,
+            onMessageChange = {
+                message = it
+            },
+            onSendClicked = {
+                if (message.isNotEmpty()){
+                    try {
+                        notesVieModel.sendNote(
+                            note = message,
+                            onSuccess = {
+
+                            },
+                            onError = {}
+                        )
+
+                    } catch (e: FirebaseFirestoreException){
+                        e.message
+                    }
+                }
+            }
+        )
     }
 }
 

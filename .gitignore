@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+keystore.properties
+fastlane/keystore1.jks

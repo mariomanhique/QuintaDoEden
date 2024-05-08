@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QuintaDoEden</string>
+    <string name="app_name">Hotel Kit</string>
     <string name="check_in_out">Entradas/Saídas</string>
     <string name="check_in">Entradas</string>
     <string name="checkout">Saidas</string>
